@@ -74,10 +74,13 @@
                         <table class="table w-full">
                             <thead>
                                 <tr class="border-b border-border">
-                                    <th class="col w-35">E-mail</th>
-                                    <th class="col w-25">Nome</th>
+                                    <th class="col w-35">
+                                        @sortablelink('email','E-mail')
+                                    </th>
+                                    <th class="col w-25">@sortablelink('name','Nome')
+                                    </th>
                                     <th class="col w-5">Ativo</th>
-                                    <th class="col w-10">Transportadora</th>
+                                    <th class="col w-10">@sortablelink('transportadora.nome','Transportadora')</th>
                                     <th class="col w-10">Ações</th>
                                 </tr>
                             </thead>

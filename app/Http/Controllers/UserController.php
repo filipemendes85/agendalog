@@ -13,6 +13,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
         $transportadoras = Transportadora::orderBy('nome')->get();
         $query = User::query();
 
@@ -21,13 +22,17 @@ class UserController extends Controller
 
         if ($request->has('nomeOuEmail')){
             $query->where(function ($q) use ($request) {
-                    $q->where('name', 'like', '%'.$request->input('nomeOuEmail').'%')
-                        ->orWhere('email', 'like', '%'.$request->input('nomeOuEmail').'%');
+                    $q->where('users.name', 'like', '%'.$request->input('nomeOuEmail').'%')
+                        ->orWhere('users.email', 'like', '%'.$request->input('nomeOuEmail').'%');
             });
         }
-        $users = $query->paginate(10)->withQueryString();
+        
+        $users = $query->sortable()->paginate(10)->withQueryString();
 
-        return view('pages/home', compact('users'), ['transportadoras' => $transportadoras, 'transportadoraId' =>  $request->input('transportadoraId'), 'nomeOuEmail' => $request->input('nomeOuEmail')]);
+        return view('pages/home', ['users' => $users, 
+                        'transportadoras' => $transportadoras,
+                        'transportadoraId' => $request->input('transportadoraId'), 
+                        'nomeOuEmail' => $request->input('nomeOuEmail')]);
 
         // return view('pages/home', ['usuarios' => $users,  
         //                             'transportadoras' => $transportadoras,  
