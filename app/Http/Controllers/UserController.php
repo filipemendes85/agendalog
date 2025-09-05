@@ -27,9 +27,9 @@ class UserController extends Controller
             });
         }
         
-        $users = $query->sortable()->paginate(10)->withQueryString();
+        $users = $query->sortable()->paginate(2)->withQueryString();
 
-        return view('pages/home', ['users' => $users, 
+        return view('pages/usuario', ['users' => $users, 
                         'transportadoras' => $transportadoras,
                         'transportadoraId' => $request->input('transportadoraId'), 
                         'nomeOuEmail' => $request->input('nomeOuEmail')]);
@@ -45,7 +45,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages/usuario-form');
     }
 
     /**
@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('pages/usuario-form');
     }
 
     /**

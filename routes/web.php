@@ -22,7 +22,13 @@ use App\Models\User;
 |
 */
 Route::middleware(['auth'])->group(function(){
-    Route::get('/index', [UserController::class, 'index']);
+    
+    Route::get('/index', function () {
+        return view('pages/home');
+    });
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users-show', [UserController::class, 'show']);
+    Route::get('/users-create', [UserController::class, 'create']);
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');

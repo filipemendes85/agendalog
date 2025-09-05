@@ -221,7 +221,7 @@
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link justify-content-between"  
-                href="#" aria-expanded="false">
+                href="/users" aria-expanded="false">
                 <div class="d-flex align-items-center gap-3">
                   <span class="d-flex">
                     <i class="ti ti-users"></i>
