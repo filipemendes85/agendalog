@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AgendaLog - Ecollogistics</title>
-  <link rel="shortcut icon" type="image/png" href="./assets/images/logos/favicon.png" />
-  <link rel="stylesheet" href="./assets/css/styles.min.css" />
+  <link rel="shortcut icon" type="image/png" href={{ asset('assets/images/logos/favicon.png') }} />
+  <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
 </head>
 
 <body>
@@ -46,8 +46,8 @@
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
           <a href="./index.html" class="text-nowrap logo-img">
-            <img src="./assets/images/logos/logo.png" alt="" class="container-fluid" />
-          </a>
+            <img src={{ asset('assets/images/logos/logo.png') }} alt="" class="container-fluid" />
+        </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-6"></i>
           </div>
@@ -93,7 +93,7 @@
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link justify-content-between"  
-                href="#" aria-expanded="false">
+                href="/clients" aria-expanded="false">
                 <div class="d-flex align-items-center gap-3">
                   <span class="d-flex">
                     <i class="ti ti-address-book"></i>
@@ -352,14 +352,14 @@
 
     </div>
   </div>
-  <script src="./assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="./assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./assets/js/sidebarmenu.js"></script>
-  <script src="./assets/js/app.min.js"></script>
-  <script src="./assets/libs/simplebar/dist/simplebar.js"></script>
-  <!-- solar icons -->
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-  
+
+  <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
+  <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
+  <script src="{{ asset('assets/js/app.min.js') }}"></script>
+  <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
+  <script src="{{ asset('https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js') }}"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         var toastElement = document.getElementById('myToast');
