@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientController;
 use App\Models\User;
 
 /*
@@ -29,6 +30,20 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users-show', [UserController::class, 'show']);
     Route::get('/users-create', [UserController::class, 'create']);
+
+    // Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    // Route::get('/users-create', [ClientController::class, 'create']);
+
+    Route::resource('clients', ClientController::class)->names([
+        'index' => 'clients.index',
+        'create' => 'clients.create',
+        'store' => 'clients.store',
+        'show' => 'clients.show',
+        'edit' => 'clients.edit',
+        'update' => 'clients.update',
+        'destroy' => 'clients.destroy'
+    ]);
+
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
