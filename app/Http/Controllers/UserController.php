@@ -27,7 +27,7 @@ class UserController extends Controller
             });
         }
         
-        $users = $query->sortable()->paginate(2)->withQueryString();
+        $users = $query->sortable()->paginate(10)->withQueryString();
 
         return view('pages/usuario', ['users' => $users, 
                         'transportadoras' => $transportadoras,
