@@ -33,7 +33,7 @@ class ClientController extends Controller
                         ->paginate(15)
                         ->appends($request->query());
 
-        return view('clients.index', [
+        return view('clients.index_clients', [
             'clients' => $clients,
             'nomeOuEmail' => $request->input('nomeOuEmail', ''),
             'telefone' => $request->input('telefone', ''),
@@ -44,7 +44,7 @@ class ClientController extends Controller
      // CREATE - Formulário de criação
     public function create()
     {
-        return view('clients.create');
+        return view('clients.create_client');
     }
 
     // STORE - Salvar novo cliente
@@ -66,14 +66,14 @@ class ClientController extends Controller
     // SHOW - Visualizar cliente (opcional)
     public function show(Client $client)
     {
-        return view('clients.show', compact('client'));
+        return view('clients.show_client', compact('client'));
     }
 
 
     // EDIT - Formulário de edição
     public function edit(Client $client) // Route Model Binding
     {
-        return view('clients.edit', compact('client'));
+        return view('clients.edit_client', compact('client'));
     }
 
     // UPDATE - Atualizar cliente
