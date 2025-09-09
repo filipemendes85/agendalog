@@ -2,6 +2,41 @@
 
 use Illuminate\Support\Facades\Request;
 
+if (!function_exists('show_alert')) {
+    function show_alert($message, $type = 'success')
+    {
+        session()->flash($type, $message);
+    }
+}
+
+if (!function_exists('alert_success')) {
+    function alert_success($message)
+    {
+        return show_alert($message, 'success');
+    }
+}
+
+if (!function_exists('alert_error')) {
+    function alert_error($message)
+    {
+        return show_alert($message, 'error');
+    }
+}
+
+if (!function_exists('alert_warning')) {
+    function alert_warning($message)
+    {
+        return show_alert($message, 'warning');
+    }
+}
+
+if (!function_exists('alert_info')) {
+    function alert_info($message)
+    {
+        return show_alert($message, 'info');
+    }
+}
+
 if (!function_exists('sort_link')) {
     /**
      * Gera link de ordenação com seta

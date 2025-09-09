@@ -1,12 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AgendaLog - Ecollogistics</title>
-  <link rel="shortcut icon" type="image/png" href={{ asset('assets/images/logos/favicon.png') }} />
-  <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgendaLog - Ecollogistics</title>
+    <link rel="shortcut icon" type="image/png" href={{ asset('assets/images/logos/favicon.png') }} />
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset( 'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css ') }}">
+    
+    <script src="{{ asset('assets/js/app.js') }}" defer></script>
+    <script src="{{ asset('assets/js/masks.js') }}" defer></script>
+    <script src="{{ asset('assets/js/alerts.js') }}" defer></script>
 </head>
 
 <body>
@@ -353,25 +358,95 @@
     </div>
   </div>
 
-  <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
-  <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
-  <script src="{{ asset('assets/js/app.min.js') }}"></script>
-  <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
-  <script src="{{ asset('https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('assets/js/app.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/sweetalert2@11') }}"></script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var toastElement = document.getElementById('myToast');
-        var showToastBtn = document.getElementById('showToastBtn');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElement = document.getElementById('myToast');
+            var showToastBtn = document.getElementById('showToastBtn');
 
-        if (toastElement && showToastBtn) {
-        var myToast = new bootstrap.Toast(toastElement);
+            if (toastElement && showToastBtn) {
+            var myToast = new bootstrap.Toast(toastElement);
 
-        showToastBtn.addEventListener('click', function() {
-            myToast.show();
-        });
-        }
+            showToastBtn.addEventListener('click', function() {
+                myToast.show();
+            });
+            }
+
+            // Alertas de sucesso
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    width: 400,
+                    text: '{{ session('success') }}',
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    background: '#28a745',
+                    iconColor: '#f0f9f0',
+                    color: '#f0f9f0'
+                });
+            @endif
+
+            // Alertas de erro
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: '{{ session('error') }}',
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    background: '#dc3545',
+                    iconColor: '#fdf2f2',
+                    color: '#fdf2f2'
+                });
+            @endif
+
+            // Alertas de aviso
+            @if (session('warning'))
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atenção!',
+                    text: '{{ session('warning') }}',
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3500,
+                    timerProgressBar: true,
+                    background: '#ffc107',
+                    iconColor: '#fff9eb',
+                    color: '#fff9eb'
+                });
+            @endif
+
+            // Alertas de informação
+            @if (session('info'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Informação',
+                    text: '{{ session('info') }}',
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    background: '#17a2b8',
+                    iconColor: '#e8f4fd',
+                    color: '#e8f4fd'
+                });
+            @endif
     });
 
     document.getElementById('liveToastBtn').addEventListener('click', function() {
