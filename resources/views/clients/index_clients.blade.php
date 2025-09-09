@@ -135,19 +135,6 @@
     </div>
 </div>
 
-<script>
-// Script para limpar o campo de pesquisa
-document.addEventListener('DOMContentLoaded', function() {
-    const searchClear = document.getElementById('searchclear');
-    const searchInput = document.getElementById('searchinput');
-    
-    if (searchClear && searchInput) {
-        searchClear.addEventListener('click', function() {
-            searchInput.value = '';
-            searchInput.focus();
-        });
-    }
-});
-</script>
+<script src="{{ asset('assets/js/clients/index_clients.js') }}" defer></script>
 
 @endsection

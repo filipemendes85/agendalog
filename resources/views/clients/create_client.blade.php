@@ -1,0 +1,235 @@
+@extends('layout')
+@section('conteudo')
+
+<div class="body-wrapper-inner">
+    <div class="container-fluid">
+        <div class="card p-4 p-lg-5">
+            <div class="mb-5">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="p-2 bg-primary bg-opacity-10 rounded me-3">
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-user text-primary">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" />
+                            <path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl fw-semibold text-dark mb-1">Novo Cliente</h2>
+                        <p class="small text-muted mb-0">Preencha os dados para criar um novo cliente</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form method="POST" action="{{ route('clients.store') }}">
+                @csrf
+                
+                <!-- Seção 1: Dados Básicos -->
+                <div class="row g-4 mb-5">
+                    <!-- Nome/Razão Social -->
+                    <div class="col-lg-6">
+                        <label for="txtNome" class="form-label fw-medium">
+                            Nome/Razão Social <span class="text-danger">*</span>
+                        </label>
+                        <input id="txtNome" name="nome" required class="form-control" value="{{ old('nome') }}">
+                        <div class="form-text">Nome completo ou razão social</div>
+                        @error('nome') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Tipo Pessoa -->
+                    <div class="col-lg-3">
+                        <label for="tipoPessoa" class="form-label fw-medium">
+                            Tipo <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="tipoPessoa" id="tipoPessoa" required>
+                            <option value="F" {{ old('tipoPessoa') == 'F' ? 'selected' : '' }}>Pessoa Física</option>
+                            <option value="J" {{ old('tipoPessoa') == 'J' ? 'selected' : '' }}>Pessoa Jurídica</option>
+                        </select>
+                        @error('tipoPessoa') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Documento (CPF/CNPJ) -->
+                    <div class="col-lg-3">
+                        <label for="txtDocumento" class="form-label fw-medium">
+                            CPF/CNPJ <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtDocumento" name="documento" required class="form-control" 
+                               value="{{ old('documento') }}" placeholder="000.000.000-00">
+                        <div class="form-text" id="documentoHelp">Informe o CPF ou CNPJ</div>
+                        @error('documento') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <!-- Seção 2: Contato -->
+                <div class="row g-4 mb-5">
+                    <!-- E-mail -->
+                    <div class="col-lg-6">
+                        <label for="txtEmail" class="form-label fw-medium">
+                            E-mail <span class="text-danger">*</span>
+                        </label>
+                        <input type="email" id="txtEmail" name="email" required class="form-control" 
+                               value="{{ old('email') }}" placeholder="cliente@email.com">
+                        <div class="form-text">E-mail para contato</div>
+                        @error('email') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="col-lg-6">
+                        <label for="txtTelefone" class="form-label fw-medium">
+                            Telefone <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtTelefone" name="telefone" required class="form-control" 
+                               value="{{ old('telefone') }}" placeholder="(27) 99999-9999">
+                        <div class="form-text">Telefone principal</div>
+                        @error('telefone') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <!-- Seção 3: Endereço -->
+                <div class="row g-4 mb-5">
+                    <!-- CEP -->
+                    <div class="col-lg-3">
+                        <label for="txtCep" class="form-label fw-medium">
+                            CEP <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtCep" name="cep" required class="form-control" 
+                               value="{{ old('cep') }}" placeholder="00000-000">
+                        <div class="form-text">Informe o CEP</div>
+                        @error('cep') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Endereço -->
+                    <div class="col-lg-6">
+                        <label for="txtEndereco" class="form-label fw-medium">
+                            Endereço <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtEndereco" name="endereco" required class="form-control" 
+                               value="{{ old('endereco') }}" placeholder="Rua, Avenida, etc.">
+                        <div class="form-text">Logradouro completo</div>
+                        @error('endereco') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Número -->
+                    <div class="col-lg-3">
+                        <label for="txtNumero" class="form-label fw-medium">
+                            Número <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtNumero" name="numero" required class="form-control" 
+                               value="{{ old('numero') }}" placeholder="123">
+                        <div class="form-text">Número do endereço</div>
+                        @error('numero') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <!-- Complemento -->
+                    <div class="col-lg-4">
+                        <label for="txtComplemento" class="form-label fw-medium">
+                            Complemento
+                        </label>
+                        <input type="text" id="txtComplemento" name="complemento" class="form-control" 
+                               value="{{ old('complemento') }}" placeholder="Apto, Sala, etc.">
+                        <div class="form-text">Complemento do endereço</div>
+                        @error('complemento') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Bairro -->
+                    <div class="col-lg-4">
+                        <label for="txtBairro" class="form-label fw-medium">
+                            Bairro <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtBairro" name="bairro" required class="form-control" 
+                               value="{{ old('bairro') }}" placeholder="Centro">
+                        <div class="form-text">Bairro</div>
+                        @error('bairro') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Cidade -->
+                    <div class="col-lg-4">
+                        <label for="txtCidade" class="form-label fw-medium">
+                            Cidade <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="txtCidade" name="cidade" required class="form-control" 
+                               value="{{ old('cidade') }}" placeholder="Nome da cidade">
+                        <div class="form-text">Cidade</div>
+                        @error('cidade') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <!-- Estado -->
+                    <div class="col-lg-6">
+                        <label for="selEstado" class="form-label fw-medium">
+                            Estado <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="estado" id="selEstado" required>
+                            <option value="">Selecione o estado</option>
+                            <option value="AC" {{ old('estado') == 'AC' ? 'selected' : '' }}>Acre</option>
+                            <option value="AL" {{ old('estado') == 'AL' ? 'selected' : '' }}>Alagoas</option>
+                            <option value="AP" {{ old('estado') == 'AP' ? 'selected' : '' }}>Amapá</option>
+                            <option value="AM" {{ old('estado') == 'AM' ? 'selected' : '' }}>Amazonas</option>
+                            <option value="BA" {{ old('estado') == 'BA' ? 'selected' : '' }}>Bahia</option>
+                            <option value="CE" {{ old('estado') == 'CE' ? 'selected' : '' }}>Ceará</option>
+                            <option value="DF" {{ old('estado') == 'DF' ? 'selected' : '' }}>Distrito Federal</option>
+                            <option value="ES" {{ old('estado') == 'ES' ? 'selected' : '' }}>Espírito Santo</option>
+                            <option value="GO" {{ old('estado') == 'GO' ? 'selected' : '' }}>Goiás</option>
+                            <option value="MA" {{ old('estado') == 'MA' ? 'selected' : '' }}>Maranhão</option>
+                            <option value="MT" {{ old('estado') == 'MT' ? 'selected' : '' }}>Mato Grosso</option>
+                            <option value="MS" {{ old('estado') == 'MS' ? 'selected' : '' }}>Mato Grosso do Sul</option>
+                            <option value="MG" {{ old('estado') == 'MG' ? 'selected' : '' }}>Minas Gerais</option>
+                            <option value="PA" {{ old('estado') == 'PA' ? 'selected' : '' }}>Pará</option>
+                            <option value="PB" {{ old('estado') == 'PB' ? 'selected' : '' }}>Paraíba</option>
+                            <option value="PR" {{ old('estado') == 'PR' ? 'selected' : '' }}>Paraná</option>
+                            <option value="PE" {{ old('estado') == 'PE' ? 'selected' : '' }}>Pernambuco</option>
+                            <option value="PI" {{ old('estado') == 'PI' ? 'selected' : '' }}>Piauí</option>
+                            <option value="RJ" {{ old('estado') == 'RJ' ? 'selected' : '' }}>Rio de Janeiro</option>
+                            <option value="RN" {{ old('estado') == 'RN' ? 'selected' : '' }}>Rio Grande do Norte</option>
+                            <option value="RS" {{ old('estado') == 'RS' ? 'selected' : '' }}>Rio Grande do Sul</option>
+                            <option value="RO" {{ old('estado') == 'RO' ? 'selected' : '' }}>Rondônia</option>
+                            <option value="RR" {{ old('estado') == 'RR' ? 'selected' : '' }}>Roraima</option>
+                            <option value="SC" {{ old('estado') == 'SC' ? 'selected' : '' }}>Santa Catarina</option>
+                            <option value="SP" {{ old('estado') == 'SP' ? 'selected' : '' }}>São Paulo</option>
+                            <option value="SE" {{ old('estado') == 'SE' ? 'selected' : '' }}>Sergipe</option>
+                            <option value="TO" {{ old('estado') == 'TO' ? 'selected' : '' }}>Tocantins</option>
+                        </select>
+                        @error('estado') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-lg-6">
+                        <label class="form-label fw-medium">
+                            Status do Cliente
+                        </label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" 
+                                   name="ativo" value="1" {{ old('ativo', 1) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="switchCheckChecked">Cliente Ativo</label>
+                        </div>
+                        <div class="form-text">Cliente ativo ou inativo no sistema</div>
+                        @error('ativo') <div class="text-danger text-sm">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="d-flex flex-column flex-sm-row gap-3 pt-4 border-top justify-content-end">
+                    <div class="flex">
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <button type="submit" class="btn btn-primary flex-fill px-4 py-2 fs-6">
+                                <i class="ti ti-file-check" width="16" height="16"></i>
+                                Salvar Cliente
+                            </button>
+                            <a href="{{ route('clients.index') }}" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                <i class="ti ti-x" width="16" height="16"></i>
+                                Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('assets/js/clients/create_client.js') }}" defer></script>
+
+@endsection
