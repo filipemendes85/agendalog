@@ -11,7 +11,6 @@
     
     <script src="{{ asset('assets/js/app.js') }}" defer></script>
     <script src="{{ asset('assets/js/masks.js') }}" defer></script>
-    <script src="{{ asset('assets/js/alerts.js') }}" defer></script>
 </head>
 
 <body>
@@ -358,6 +357,7 @@
     </div>
   </div>
 
+    <script src="{{ asset('assets/js/alerts.js') }}" defer></script>
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
@@ -392,7 +392,7 @@
                     timer: 4000,
                     timerProgressBar: true,
                     background: '#28a745',
-                    iconColor: '#f0f9f0',
+                    iconColor: '#285c34',
                     color: '#f0f9f0'
                 });
             @endif
@@ -402,6 +402,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro!',
+                    width: 400,
                     text: '{{ session('error') }}',
                     toast: true,
                     position: 'bottom-end',
@@ -409,7 +410,7 @@
                     timer: 4000,
                     timerProgressBar: true,
                     background: '#dc3545',
-                    iconColor: '#fdf2f2',
+                    iconColor: '#7f3037',
                     color: '#fdf2f2'
                 });
             @endif
@@ -419,6 +420,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Atenção!',
+                    width: 400,
                     text: '{{ session('warning') }}',
                     toast: true,
                     position: 'bottom-end',
@@ -426,7 +428,7 @@
                     timer: 3500,
                     timerProgressBar: true,
                     background: '#ffc107',
-                    iconColor: '#fff9eb',
+                    iconColor: '#8a6f1e',
                     color: '#fff9eb'
                 });
             @endif
