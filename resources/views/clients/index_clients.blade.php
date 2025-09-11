@@ -102,11 +102,12 @@
                                         </a>
                                         
                                         <!-- Excluir -->
-                                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline">
+                                        <form id="delete-form-{{ $client->id }}" action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                                    onclick="return confirm('Tem certeza que deseja excluir este cliente?')" title="Excluir">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                    onclick="confirmDelete('delete-form-{{ $client->id }}', 'Tem certeza que deseja excluir o cliente {{ addslashes($client->name) }}?')" 
+                                                    title="Excluir">
                                                 <i class="ti ti-trash"></i>
                                             </button>
                                         </form>

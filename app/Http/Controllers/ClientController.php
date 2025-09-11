@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Validation\Rule; ;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class ClientController extends Controller
 {
@@ -23,8 +23,8 @@ class ClientController extends Controller
             $query->where( 'telefone', 'like', '%' . $request->telefone . '%');
         }
 
-        if ($request->has('ativo') && !empty($request->ativo)) {
-            $query->where('ativo', $request->ativo);
+        if ($request->has('ativo') && $request->ativo != '') {
+            $query->where('ativo', '=', $request->ativo);
         }
 
         $sortField = $request->get('sort', 'nome');
@@ -208,7 +208,7 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('clients.index')->with('success', 'Cliente excluído!');
+        return redirect()->route('clients.index')->with('success', 'Cliente excluído com sucesso!');
     }
 
 }
