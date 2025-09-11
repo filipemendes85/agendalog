@@ -102,11 +102,12 @@
                                         </a>
                                         
                                         <!-- Excluir -->
-                                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline">
+                                        <form id="delete-form-{{ $client->id }}" action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                                    onclick="return confirm('Tem certeza que deseja excluir este cliente?')" title="Excluir">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                    onclick="confirmDelete('delete-form-{{ $client->id }}', 'Tem certeza que deseja excluir o cliente {{ addslashes($client->name) }}?')" 
+                                                    title="Excluir">
                                                 <i class="ti ti-trash"></i>
                                             </button>
                                         </form>
@@ -135,19 +136,6 @@
     </div>
 </div>
 
-<script>
-// Script para limpar o campo de pesquisa
-document.addEventListener('DOMContentLoaded', function() {
-    const searchClear = document.getElementById('searchclear');
-    const searchInput = document.getElementById('searchinput');
-    
-    if (searchClear && searchInput) {
-        searchClear.addEventListener('click', function() {
-            searchInput.value = '';
-            searchInput.focus();
-        });
-    }
-});
-</script>
+<script src="{{ asset('assets/js/clients/index_clients.js') }}" defer></script>
 
 @endsection
