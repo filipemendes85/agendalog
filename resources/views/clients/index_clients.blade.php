@@ -12,7 +12,7 @@
                     <i class="ti ti-plus"></i> Novo
                 </a>
             </div>  
-            
+
             <!-- Filtros -->
             <div class="card">
                 <div class="card-body">
@@ -50,7 +50,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <!-- Resultados -->
             <div class="card p-6">
                 <div class="d-flex justify-content-end align-items-center mb-4">
@@ -106,8 +106,8 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-outline-danger btn-sm" 
-                                                    onclick="confirmDelete('delete-form-{{ $client->id }}', 'Tem certeza que deseja excluir o cliente {{ addslashes($client->name) }}?')" 
-                                                    title="Excluir">
+                                                onclick="confirmAction('Tem certeza que deseja excluir o cliente {{ addslashes($client->nome) }}?', 'delete-form-{{ $client->id }}')" 
+                                                title="Excluir">
                                                 <i class="ti ti-trash"></i>
                                             </button>
                                         </form>

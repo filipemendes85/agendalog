@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Validation\Rule; ;
 use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\Config;
+
 
 class ClientController extends Controller
 {
+    //LISTAR - Formulario de listagem com filtros, ordenação e paginação
+
     public function index(Request $request)
     {
         $query = Client::query();
@@ -29,7 +33,7 @@ class ClientController extends Controller
 
         $sortField = $request->get('sort', 'nome');
         $sortDirection = $request->get('direction', 'asc');
-        
+
         $clients = $query->orderBy($sortField, $sortDirection)
                         ->paginate(15)
                         ->appends($request->query());
@@ -45,7 +49,8 @@ class ClientController extends Controller
      // CREATE - Formulário de criação
     public function create()
     {
-        return view('clients.create_client');
+        $estados = config('estados');
+        return view('clients.create_client', compact('estados'));
     }
 
     // STORE - Salvar novo cliente
@@ -59,37 +64,26 @@ class ClientController extends Controller
                 'string',
                 'max:18',
                 function ($attribute, $value, $fail) use ($request) {
-                    // Remove caracteres não numéricos
+
                     $doc = preg_replace('/[^0-9]/', '', $value);
-                    
-                    // Valida CPF
-                    if ($request->tipoPessoa == 'F' && strlen($doc) === 11) {
-                        if (!validateCPF($doc)) {
-                            $fail('CPF inválido.');
-                            session()->flash('warning', 'CPF inválido.');
-                        }
-                    }
-                    // Valida CNPJ
-                    elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14) {
-                        if (!validateCNPJ($doc)) {
-                            $fail('CNPJ inválido.');
-                            session()->flash('warning', 'CNPJ inválido.');
-                        }
-                    } else {
+
+                    if ($request->tipoPessoa == 'F' && strlen($doc) === 11 && !validateCPF($doc)) {
+                        $fail('CPF inválido.');
+                    } elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14 && !validateCNPJ($doc)) {
+                        $fail('CNPJ inválido.');
+                    } else if ($request->tipoPessoa != 'F' && $request->tipoPessoa != 'J') {
                         $fail('Documento inválido para o tipo selecionado.');
-                        session()->flash('warning', 'Documento inválido para o tipo selecionado.');
                     }
 
-                    // Verifica se já existe
-                    $exists = Client::where('documento', $doc)
-                        ->when($request->has('id'), function($query) use ($request) {
-                            $query->where('id', '!=', $request->id);
-                        })
-                        ->exists();
+                    $query = Client::where('documento', $doc);
 
-                    if ($exists) {
-                        $fail('Este documento já está cadastrados.');
-                        session()->flash('warning', 'Este documento já está cadastrado no sistema.');
+                    if ($request->has('id')) {
+                        $query->where('id', '!=', $request->id);
+                    }
+
+                    if ($query->exists()) {
+                        $msgDocument = $request->tipoPessoa == 'F' ? 'CPF' : 'CNPJ';
+                        $fail("$msgDocument está cadastrado para outro cliente.");
                     }
                 }
             ],
@@ -125,7 +119,7 @@ class ClientController extends Controller
             ->with('success', 'Cliente criado com sucesso!');
     }
 
-    // SHOW - Visualizar cliente (opcional)
+    // SHOW - Visualizar cliente 
     public function show(Client $client)
     {
         return view('clients.show_client', compact('client'));
@@ -133,7 +127,7 @@ class ClientController extends Controller
 
 
     // EDIT - Formulário de edição
-    public function edit(Client $client) // Route Model Binding
+    public function edit(Client $client) 
     {
         return view('clients.edit_client', compact('client'));
     }
@@ -141,7 +135,6 @@ class ClientController extends Controller
     // UPDATE - Atualizar cliente
     public function update(Request $request, Client $client)
     {
-        // Reutiliza as mesmas regras de validação
         $validated = $request->validate([
             'nome' => 'required|string|max:255|min:3',
             'tipoPessoa' => 'required|in:F,J',
@@ -155,17 +148,17 @@ class ClientController extends Controller
                     if ($request->tipoPessoa == 'F' && strlen($doc) === 11) {
                         if (!validateCPF($doc)) {
                             $fail('CPF inválido.');
-                            session()->flash('warning', 'CPF inválido.');
+                            // session()->flash('warning', 'CPF inválido.');
                         }
                     }
                     elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14) {
                         if (!validateCNPJ($doc)) {
                             $fail('CNPJ inválido.');
-                            session()->flash('warning', 'CNPJ inválido.');
+                            // session()->flash('warning', 'CNPJ inválido.');
                         }
                     } else {
                         $fail('Documento inválido para o tipo selecionado.');
-                        session()->flash('warning', 'Documento inválido para o tipo selecionado.');
+                        // session()->flash('warning', 'Documento inválido para o tipo selecionado.');
                     }
                     
                     // Verifica se já existe, ignorando o atual
@@ -175,7 +168,7 @@ class ClientController extends Controller
                         
                     if ($exists) {
                         $fail('Este documento já está cadastrado');
-                        session()->flash('warning', 'Este documento já está cadastrado no sistema.');
+                        // session()->flash('warning', 'Este documento já está cadastrado no sistema.');
                     }
                 }
             ],
@@ -198,6 +191,10 @@ class ClientController extends Controller
 
         $request->merge(['ativo' => $request->has('ativo')]);
         
+        if (!$validated){
+            return redirect()->back()->withErrors(['field' => 'E-mail já informado para outro usuário'])->withInput();
+        }
+
         $client->update($validated);
 
         return redirect()->route('clients.index')

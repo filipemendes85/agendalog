@@ -8,10 +8,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const form = document.querySelector('form');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            // Validações específicas da criação
-        });
-    }
+    initFormProgress('clientsForm', 'progressBar');
 });

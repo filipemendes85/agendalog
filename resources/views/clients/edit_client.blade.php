@@ -1,6 +1,23 @@
 @extends('layout')
 @section('conteudo')
 
+
+@if ($errors->any())
+    <div class="toast-container position-fixed top-0 end-0 p-3 show" style="z-index: 9999;">
+        <div class="toast align-items-center custom-toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true"
+            id="toastUser">
+            <div class="d-flex">
+                <div class="toast-body text-white">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}<br>
+                    @endforeach
+                </div>
+                <button type="button" class="btn-close me-2 m-auto text-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+@endif
+    
 <div class="body-wrapper-inner">
     <div class="container-fluid">
         <div class="card p-4 p-lg-5">
@@ -20,10 +37,14 @@
                         <p class="small text-muted mb-0">Editando: {{ $client->nome }}</p>
                     </div>
                 </div>
+
+                <div class="progress" style="height: 6px;">
+                    <div class="progress-bar" role="progressbar" style="width: 0%" id="progressBar"></div>
+                </div>
             </div>
 
             <!-- Form -->
-            <form method="POST" action="{{ route('clients.update', $client->id) }}">
+            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}">
                 @csrf
                 @method('PUT')
                 
@@ -166,11 +187,13 @@
                             Estado <span class="text-danger">*</span>
                         </label>
                         <select class="form-select" name="estado" id="selEstado" required>
-                            <option value="">Selecione o estado</option>
-                            @foreach(['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'] as $uf)
-                                <option value="{{ $uf }}" {{ old('estado', $client->estado) == $uf ? 'selected' : '' }}>{{ $uf }}</option>
-                            @endforeach
-                        </select>
+                        <option value="">Selecione o estado</option>
+                        @foreach(config('estados') as $sigla => $nome)
+                            <option value="{{ $sigla }}" {{ old('estado', $client->estado) == $sigla ? 'selected' : '' }}>
+                                {{ $nome }}
+                            </option>
+                        @endforeach
+                    </select>
                         @error('estado') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
 
@@ -214,6 +237,8 @@
     </div>
 </div>
 
-<script src="{{ asset('assets/js/clients/edit_client.js') }}" defer></script>
-
 @endsection
+
+@push('pagescript')
+    <script src="{{ asset('assets/js/clients/edit_client.js') }}" defer></script>
+@endpush

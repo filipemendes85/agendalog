@@ -133,7 +133,7 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label fw-medium text-muted">Estado</label>
-                                        <p class="form-control-plaintext">{{ $client->estado }}</p>
+                                        <p class="form-control-plaintext">{{ getNomeEstado($client->estado) }}</p>
                                     </div>
                                 </div>
                             </div>
