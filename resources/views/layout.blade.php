@@ -15,31 +15,6 @@
 
 <body>
   
-  <div class="toast-container position-fixed top-10 end-0 p-3">
-    {{-- <div id="liveToast" class="toast bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-        <strong class="me-auto">Bootstrap</strong>
-        <small>11 mins ago</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-        Hello, world! This is a toast message.
-        </div>
-    </div> --}}
-
-    <div class="toast align-items-center bg-success" role="alert" aria-live="assertive" aria-atomic="true" id="myToast">
-        <div class="d-flex">
-            <div class="toast-body text-white">
-            Hello, world! This is a toast message.
-            </div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-
-  </div>
-  
-  
-
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
@@ -458,29 +433,6 @@
 
       // Inicialização quando o documento estiver pronto
       document.addEventListener('DOMContentLoaded', function() {
-          // Inicializar toast do Bootstrap (se existir)
-          var toastElement = document.getElementById('myToast');
-          var showToastBtn = document.getElementById('showToastBtn');
-
-          if (toastElement && showToastBtn) {
-              var myToast = new bootstrap.Toast(toastElement);
-              showToastBtn.addEventListener('click', function() {
-                  myToast.show();
-              });
-          }
-
-          // Inicializar toast live (se existir)
-          var liveToastBtn = document.getElementById('liveToastBtn');
-          if (liveToastBtn) {
-              liveToastBtn.addEventListener('click', function() {
-                  var toastLiveExample = document.getElementById('liveToast');
-                  if (toastLiveExample) {
-                      var toast = new bootstrap.Toast(toastLiveExample);
-                      toast.show();
-                  }
-              });
-          }
-
           // Para formulários com a classe 'delete-form' (método alternativo)
           document.querySelectorAll('form.delete-form').forEach(form => {
               form.addEventListener('submit', function(e) {
