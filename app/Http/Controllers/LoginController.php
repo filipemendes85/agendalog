@@ -29,6 +29,7 @@ class LoginController extends Controller
         ];
         $credenciais = $request->validate($rules, $customMessages);
 
+        //dd($credenciais);
 
         if (Auth::attempt($credenciais)){
             $request->session()->regenerate();

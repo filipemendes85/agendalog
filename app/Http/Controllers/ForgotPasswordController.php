@@ -62,7 +62,7 @@ class ForgotPasswordController extends Controller
 
     public function reset(Request $request)
     {
-        return back()->with('status', 'Senha alterada com sucesso. <Br> Faça login para acessa o sistema');
+        //return back()->with('status', 'Senha alterada com sucesso. Faça login para acessa o sistema');
         
         $request->validate([
             'token' => 'required',
@@ -80,7 +80,7 @@ class ForgotPasswordController extends Controller
         );
 
         return $status == Password::PASSWORD_RESET
-            ? back()->with('status', 'Senha alterada com sucesso. <Br> Faça login para acessa o sistema')
+            ? back()->with('status', 'Senha alterada com sucesso. Faça login para acessa o sistema')
             : back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
     }
 

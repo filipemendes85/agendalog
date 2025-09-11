@@ -24,6 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'transportadora_id',
+        'active'
     ];
 
     public $sortable = ['name', 'email', 'transportadora'];

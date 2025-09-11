@@ -359,28 +359,7 @@
   <script src="{{ asset('assets/js/app.min.js') }}"></script>
   <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
   <script src="{{ asset('https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js') }}"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var toastElement = document.getElementById('myToast');
-        var showToastBtn = document.getElementById('showToastBtn');
-
-        if (toastElement && showToastBtn) {
-        var myToast = new bootstrap.Toast(toastElement);
-
-        showToastBtn.addEventListener('click', function() {
-            myToast.show();
-        });
-        }
-    });
-
-    document.getElementById('liveToastBtn').addEventListener('click', function() {
-        var toastLiveExample = document.getElementById('liveToast');
-        var toast = new bootstrap.Toast(toastLiveExample);
-        toast.show();
-    });
-  </script>
-
+  @stack('pagescript')
 </body>
 
 </html>

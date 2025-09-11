@@ -27,12 +27,20 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/index', function () {
         return view('pages/home');
     });
-    Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users-show', [UserController::class, 'show']);
-    Route::get('/users-create', [UserController::class, 'create']);
+    // Route::get('/users', [UserController::class, 'index']);
+    // Route::get('/users-show', [UserController::class, 'show']);
+    // Route::get('/users-create', [UserController::class, 'create']);
 
-    // Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
-    // Route::get('/users-create', [ClientController::class, 'create']);
+    Route::resource('users', UserController::class)->names([
+        'users' => 'users.index',
+        'show' => 'users.show',
+        'create'=> 'users.create',
+        'store'=> 'users.store',
+        'update'=> 'users.update',
+        'destroy' => 'users.destroy',
+    ]);
+    Route::post('users/{user}/resetpws' , [UserController::class, 'resetpws'])->name('users.resetpws');
+    //Route::post('users/{user}/send-email', [UserController::class, 'sendEmail'])
 
     Route::resource('clients', ClientController::class)->names([
         'index' => 'clients.index',
