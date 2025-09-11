@@ -113,7 +113,7 @@ if (!function_exists('validateCPF')) {
     function validateCPF($cpf)
     {
         $cpf = preg_replace('/[^0-9]/', '', $cpf);
-        
+
         if (strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
@@ -122,12 +122,14 @@ if (!function_exists('validateCPF')) {
             for ($d = 0, $c = 0; $c < $t; $c++) {
                 $d += $cpf[$c] * (($t + 1) - $c);
             }
+
             $d = ((10 * $d) % 11) % 10;
+
             if ($cpf[$c] != $d) {
                 return false;
             }
         }
-        
+
         return true;
     }
 }
@@ -156,5 +158,34 @@ if (!function_exists('validateCNPJ')) {
         }
 
         return true;
+    }
+}
+
+if (!function_exists('getNomeEstado')) {
+    /**
+     * Retorna o nome completo do estado a partir da sigla
+     *
+     * @param string $sigla Sigla do estado (ex: SP, RJ)
+     * @return string Nome completo do estado ou a sigla se não encontrado
+     */
+    function getNomeEstado($sigla)
+    {
+        $estados = config('estados');
+        return $estados[$sigla] ?? $sigla;
+    }
+}
+
+if (!function_exists('getSiglaEstado')) {
+    /**
+     * Retorna a sigla do estado a partir do nome completo
+     *
+     * @param string $nome Nome completo do estado
+     * @return string Sigla do estado ou o nome se não encontrado
+     */
+    function getSiglaEstado($nome)
+    {
+        $estados = config('estados');
+        $sigla = array_search($nome, $estados);
+        return $sigla !== false ? $sigla : $nome;
     }
 }
