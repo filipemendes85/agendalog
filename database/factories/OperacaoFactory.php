@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Cliente;
+use App\Models\Client;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Operacao>
  */
@@ -17,7 +17,7 @@ class OperacaoFactory extends Factory
     public function definition(): array
     {
         return [
-            'cliente_id' => Cliente::inRandomOrder()->first()->id,
+            'cliente_id' => Client::inRandomOrder()->first()->id,
             'tipoDocumento' => 'DI',
             'documento' => $this->faker->unique->randomNumber(6),
             'produto' => 'Fertilizante tipo '.$this->faker->text(10),
