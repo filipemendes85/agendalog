@@ -69,30 +69,7 @@
                             <div class="form-text">E-mail válido para notificação</div>
                         </div>
                     </div>
-                    
-                    @if (1==2)
-                        <div class="row g-4 mb-5" style="display:none;">
-                            <!-- Password -->
-                            <div class="col-lg-6">
-                                <label for="txtNome" class="form-label fw-medium">
-                                    Senha <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" id="txtSenha" name="password" required placeholder="" class="form-control" value="{{old('password')}}"/>
-                                <div class="form-text" id="lblSenha">Informe a senha</div>
-                            </div>
-
-                            <!-- E-mail -->
-                            <div class="col-lg-6">
-                                <label for="peso" class="form-label fw-medium">
-                                    Confirmar Senha <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <input type="password" id="txtConfirmarSenha" name="password_confirmation" required placeholder="" class="form-control" value=""/>
-                                </div>
-                                <div class="form-text" id="lblConfirmarSenha">Confirme senha digitada</div>
-                            </div>
-                        </div>
-                    @endif    
+                       
                     <div class="row g-4 mb-5">
                         <!-- Transportadora -->
                         <div class="col-lg-6">
@@ -119,7 +96,25 @@
                             </div>
                         </div>
                     </div>
-
+                    @if (isset($user->id))
+                        <div class="row g-4 mb-5">
+                            <div class="col-lg-6">
+                                <label for="txtNome" class="form-label fw-medium">
+                                    Verificação de e-mail
+                                </label>
+                                <div class="form-text">{{ $user->email_verified_at ? "E-mail verificado" : "E-mail não verificado" }}</div>
+                                @if ($user->email_verified_at)
+                                    <span class="badge text-bg-muted">{{ $user->email_verified_at->format('d/m/Y h:i:s')  }} </sped>
+                                @else 
+                                    <button type="button" class="btn btn-outline-primary fs-2" onclick="document.getElementById('formResend').submit();">
+                                        <i class="ti ti-send" width="16" height="16"></i>
+                                        Enviar Email
+                                    </button>
+                                @endif
+                                
+                            </div>
+                        </div>
+                    @endif    
                     
 
                     <!-- Form Actions -->
@@ -179,6 +174,10 @@
         <form action="{{ route('users.resetpws', [$user->id] + request()->query()) }}" method="POST" style="display:inline;" id="formResetPws" onsubmit="return confirm('Enviar e-mail para definição de senha?')">
             @csrf
         </form>  
+
+        <form action="{{ route('users.resend', [$user->id] + request()->query()) }}" method="POST" style="display:inline;" id="formResend" onsubmit="return confirm('Enviar e-mail para verficação de conta?')">
+            @csrf
+        </form> 
     
         <form action="{{ route('users.destroy', [$user->id] + request()->query()) }}" method="POST" style="display:inline;" id="formDelete" onsubmit="return confirm('Confirma a exclusão?')">
             @csrf
@@ -226,27 +225,27 @@
         });
         
         function validarSenha(senha, label, msgPadrao) {
-        const requisitos = [
-            { regex: /.{6,}/, mensagem: "Mínimo 6 caracteres" },
-            { regex: /[A-Z]/, mensagem: "Ao menos 1 letra maiúscula" },
-            { regex: /\p{N}/u, mensagem: "Ao menos 1 número" },
-            { regex: /[\W_]/, mensagem: "Ao menos 1 caractere especial" }
-        ];
+            const requisitos = [
+                { regex: /.{6,}/, mensagem: "Mínimo 6 caracteres" },
+                { regex: /[A-Z]/, mensagem: "Ao menos 1 letra maiúscula" },
+                { regex: /\p{N}/u, mensagem: "Ao menos 1 número" },
+                { regex: /[\W_]/, mensagem: "Ao menos 1 caractere especial" }
+            ];
 
-        let erros = [];
+            let erros = [];
 
-        requisitos.forEach(regra => {
-            if (!regra.regex.test(senha)) {
-            erros.push(regra.mensagem);
+            requisitos.forEach(regra => {
+                if (!regra.regex.test(senha)) {
+                erros.push(regra.mensagem);
+                }
+            });
+            document.getElementById(label).innerHTML = msgPadrao;
+            if (erros.length > 0){
+                document.getElementById(label).innerHTML = "❌ Senha inválida:<br>" + erros.join("<br>");
+                return false;
             }
-        });
-        document.getElementById(label).innerHTML = msgPadrao;
-        if (erros.length > 0){
-            document.getElementById(label).innerHTML = "❌ Senha inválida:<br>" + erros.join("<br>");
-            return false;
-        }
 
-        return true;
+            return true;
         }
 
         const toast = document.getElementById('toastUser');

@@ -38,6 +38,7 @@
                         <li>{{ session('errorLink') }}</li>
                     </ul>
                     </div> 
+                    <a href="/login" class="btn btn-outline-primary w-100 py-8 fs-4 mb-4 rounded-2">Reenviar link</a>
                 @elseif (session()->has('errorUser'))
                     <div class="alert alert-danger mt-10">
                     <ul>

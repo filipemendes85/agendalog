@@ -127,13 +127,16 @@ class UserController extends Controller
         if ($userExists){
             return redirect()->back()->withErrors(['field' => 'E-mail já informado para outro usuário'])->withInput();
         }
-        //$user->update($request->only(['name','email','transportadora_id', 'active']));
-
+        
+        if ($request->input('email') != $user->email ){
+            $user->forceFill(['email_verified_at' => null])->save();
+        }
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->transportadora_id = $request->input('transportadora_id');
         $user->active = $request->input('active') ? 1 : 0;
         $user->save();
+
 
         return redirect()->route('users.index', $request->query())
                           ->with('message', 'Usuário atualizado com sucesso!');
@@ -165,5 +168,25 @@ class UserController extends Controller
             ? redirect()->route('users.index', $request->query())->with('message', 'E-mail para redefinir senha enviado com sucesso!')
             : redirect()->back()->withErrors(['field' => 'Falha ao enviar e-mail para o e-mail do usuário.'])->withInput();
       
+    }
+
+    public function resend(User $user, Request $request){
+        
+        $erro = null;
+        
+        $user = User::where('email', $user->email)->first();
+        
+        if ($user){
+            if ($user->hasVerifiedEmail()) {
+                $erro = ['field' => 'Email já verificado.'];
+            }
+            else
+                $user->sendEmailVerificationNotification();
+        } else {
+            $erro = ['field' => 'Usuário não encontrado.'];
+        }
+
+        return $erro == null ? redirect()->route('users.index', $request->query())->with('message', 'E-mail de verificado enviado!')
+            : redirect()->back()->withErrors($erro)->withInput();
     }
 }

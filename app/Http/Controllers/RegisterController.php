@@ -35,22 +35,11 @@ class RegisterController extends Controller
         $rules = [
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|regex:/[A-Z]/|regex:/[0-9]/|regex:/[^A-Za-z0-9]/|confirmed',
             'cnpj' => 'required'
         ];
-
-        $customMessages = [
-            'name.required' => 'Nome é obrigatório.',
-            'name.max' => 'Tamanho máximo de 100 caracteres.',
-            'email.required' => 'E-mail é obrigatório',
-            'email.email' => 'E-mail inválido',
-            'email.unique' => 'E-mail informado já cadastrado',
-            'password.required' => 'Senha é obrigatória',
-            'password.min' => 'Tamanho mínimo de 6 caracteres',
-            'cnpj.required' => 'CNPJ transportadora é obrigatório'
-
-        ];
-        $validation = $request->validate($rules, $customMessages);
+        
+        $validation = $request->validate($rules);
 
         $erroRegras = array();
 
@@ -61,6 +50,8 @@ class RegisterController extends Controller
 
         if ($transportadora == null){
             array_push($erroRegras, "CNPJ informado não encontrado na base de dados"); 
+        } else if ($transportadora->ativo == 0){
+                array_push($erroRegras, "Transportadora inativada na base de dados."); 
         }
 
         if ( count($erroRegras) > 0 ){
@@ -70,7 +61,9 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')), // <<!nav>>Encripta a palavra-passe<<!/nav>>
+            'transportadora_id' => $transportadora->id,
+            'active' => 1, //registra como inativo
+            'password' => bcrypt($request->input('password')),
         ]); 
 
         $user->save();
@@ -78,7 +71,7 @@ class RegisterController extends Controller
 
         event(new Registered($user));
 
-        return redirect('/email/notice')->with('successLink', 'Você recebeu um email com link de verificação de acesso.');
+        return redirect('/email/notice')->with('successLink', 'Você recebeu um e-mail com link de verificação de acesso.');
         
     }
 

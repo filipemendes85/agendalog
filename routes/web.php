@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function(){
         'destroy' => 'users.destroy',
     ]);
     Route::post('users/{user}/resetpws' , [UserController::class, 'resetpws'])->name('users.resetpws');
+    Route::post('users/{user}/resend', [UserController::class, 'resend'])->name('users.resend');
     //Route::post('users/{user}/send-email', [UserController::class, 'sendEmail'])
 
     Route::resource('clients', ClientController::class)->names([
@@ -71,7 +72,6 @@ Route::get('/email/notice',  function(){
     return view('verifyEmail');
 })->name('verification.notice');
 
-
 Route::get('/email/verify/{id}/{hash}', function ($id , $hash , Request $request) {
     
     $result = [];
@@ -82,7 +82,7 @@ Route::get('/email/verify/{id}/{hash}', function ($id , $hash , Request $request
     } 
     else
     if (!hash_equals ((string) $hash , sha1 ( $user->getEmailForVerification ()))) { 
-        $result = [ 'errorLink' => 'Link inválido, não pode ser validado.' ]; 
+        $result = [ 'errorLink' => 'Link inválido ou expirado.' ]; 
     } 
     else{
         if (!$user->hasVerifiedEmail()) { 

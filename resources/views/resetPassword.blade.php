@@ -33,6 +33,15 @@
                   <a href="/login" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2"> Login </a>
                 @else     
                   <p class="text-center">Informe sua nova senha</p>
+                  
+                  @if ($errors->any())  
+                    <div class="alert alert-danger">
+                      @foreach ($errors->all() as $error)
+                            {{ $error }}<br>
+                      @endforeach
+                    </div>
+                  @endif
+
                   <form action="/resetpassword" method="POST">
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
@@ -45,6 +54,7 @@
                           <i class="ti ti-eye"></i>
                         </button>
                       </div>
+                      <div class="form-text" id="lblSenha">Informe a senha</div>
                     </div>
                     <div class="mb-4">
                       <label for="inputSenha" class="form-label">Repitir a senha</label>
@@ -54,6 +64,7 @@
                           <i class="ti ti-eye"></i>
                         </button>
                       </div>
+                      <div class="form-text" id="lblSenhaConfirmacao">Confirme a senha</div>
                     </div>
                     
                     {{-- <a href="./index.html" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Entrar</a> --}}
@@ -94,6 +105,42 @@
       iconConfirm.classList.toggle("bi-eye");
       iconConfirm.classList.toggle("bi-eye-slash");
     });
+
+    function validarSenha(event, label, msgPadrao) {
+
+        var senha =  event.target.value;
+        const requisitos = [
+            { regex: /.{6,}/, mensagem: "Mínimo 6 caracteres" },
+            { regex: /[A-Z]/, mensagem: "Ao menos 1 letra maiúscula" },
+            { regex: /\p{N}/u, mensagem: "Ao menos 1 número" },
+            { regex: /[\W_]/, mensagem: "Ao menos 1 caractere especial" }
+        ];
+
+        let erros = [];
+
+        requisitos.forEach(regra => {
+            if (!regra.regex.test(senha)) {
+            erros.push(regra.mensagem);
+            }
+        });
+        document.getElementById(label).innerHTML = msgPadrao;
+        if (erros.length > 0){
+            document.getElementById(label).innerHTML = "❌ Senha inválida:<br>" + erros.join("<br>");
+            return false;
+        }
+
+        return true;
+    }
+
+    txtSenha = document.getElementById('inputSenha');
+    txtSenha.addEventListener('input', function(event){
+      validarSenha(event, 'lblSenha', 'Informe a senha');
+    });
+    txtSenhaConfirmacao = document.getElementById('inputSenhaConfirmacao');
+    txtSenhaConfirmacao.addEventListener('input', function(event){
+      validarSenha(event, 'lblSenhaConfirmacao', 'Confirme a senha');
+    });
+
 
   </script>
 </body>

@@ -95,9 +95,27 @@
                           <i class="ti ti-eye"></i>
                         </button>
                       </div>
+                      <div class="form-text" id="lblSenha">Informe a senha</div>
+                    </div>
+                    <div class="mb-4">
+                      <label for="inputSenha" class="form-label">Repitir a senha</label>
+                      <div class="input-group">
+                        <input type="password" class="form-control" id="inputSenhaConfirmacao" name="password_confirmation" placeholder="Repitir a senha">
+                        <button class="btn btn-outline-secondary" type="button" id="toggleSenhaConfirmacao">
+                          <i class="ti ti-eye"></i>
+                        </button>
+                      </div>
+                      <div class="form-text" id="lblSenhaConfirmacao">Confirme a senha</div>
                     </div>
                     {{-- <a href="./index.html" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Entrar</a> --}}
-                    <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit" id="btnEntrar">Solicitar</button>
+                    <div class="row">
+                      <div class="col-md-8 col-sm-6">
+                        <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit" id="btnEntrar">Solicitar</button>
+                      </div>
+                      <div class="col-md-4 col-sm-6">
+                        <a class="btn btn-outline-primary w-100 py-8 fs-4 mb-4 rounded-2" href='/login'>Voltar</a>
+                      </div>  
+                    </div>
 
                   </form>
 
@@ -134,6 +152,41 @@
 
     $(document).ready(function(){
       $('#inputCNPJ').mask('00.000.000/0000-00');
+    });
+
+    function validarSenha(event, label, msgPadrao) {
+
+        var senha =  event.target.value;
+        const requisitos = [
+            { regex: /.{6,}/, mensagem: "Mínimo 6 caracteres" },
+            { regex: /[A-Z]/, mensagem: "Ao menos 1 letra maiúscula" },
+            { regex: /\p{N}/u, mensagem: "Ao menos 1 número" },
+            { regex: /[\W_]/, mensagem: "Ao menos 1 caractere especial" }
+        ];
+
+        let erros = [];
+
+        requisitos.forEach(regra => {
+            if (!regra.regex.test(senha)) {
+            erros.push(regra.mensagem);
+            }
+        });
+        document.getElementById(label).innerHTML = msgPadrao;
+        if (erros.length > 0){
+            document.getElementById(label).innerHTML = "❌ Senha inválida:<br>" + erros.join("<br>");
+            return false;
+        }
+
+        return true;
+    }
+
+    txtSenha = document.getElementById('inputSenha');
+    txtSenha.addEventListener('input', function(event){
+      validarSenha(event, 'lblSenha', 'Informe a senha');
+    });
+    txtSenhaConfirmacao = document.getElementById('inputSenhaConfirmacao');
+    txtSenhaConfirmacao.addEventListener('input', function(event){
+      validarSenha(event, 'lblSenhaConfirmacao', 'Confirme a senha');
     });
 
 

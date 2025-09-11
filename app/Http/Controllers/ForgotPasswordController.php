@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Password;
 use DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class ForgotPasswordController extends Controller
 {
@@ -31,13 +32,18 @@ class ForgotPasswordController extends Controller
         
         $request->validate($rules, $customMessages);
 
-        $response = Password::sendResetLink(
-            $request->only('email')
-        );
+        $user = User::where('email', $request->input('email'))->first();
+        if ($user){
+            $response = Password::sendResetLink(
+                $request->only('email')
+            );
+            return $response === Password::RESET_LINK_SENT
+                ? back()->with('passwordresetSuccess', __($response))
+                : back()->with('passwordresetError' , __($response));
+        }
+        return back()->with('passwordresetError' , "E-mail inválido");
 
-        return $response === Password::RESET_LINK_SENT
-            ? back()->with('passwordresetSuccess', __($response))
-            : back()->with('passwordresetError' , __($response));
+        
     }
 
     public function resetPassword(Request $request)
@@ -66,7 +72,7 @@ class ForgotPasswordController extends Controller
         
         $request->validate([
             'token' => 'required',
-            'password' => 'required|string|confirmed|min:6',
+            'password' => 'required|string|min:6|regex:/[A-Z]/|regex:/[0-9]/|regex:/[^A-Za-z0-9]/|confirmed',
         ]);
 
         $status = Password::reset(
@@ -76,7 +82,10 @@ class ForgotPasswordController extends Controller
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60)
                 ])->save();
-            }
+                if (!$user->hasVerifiedEmail()) { 
+                    $user->markEmailAsVerified(); 
+                }
+            } 
         );
 
         return $status == Password::PASSWORD_RESET
