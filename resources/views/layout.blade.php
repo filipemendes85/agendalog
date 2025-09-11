@@ -367,96 +367,144 @@
     <script src="{{ asset('https://cdn.jsdelivr.net/npm/sweetalert2@11') }}"></script>
 
     <script>
+        // Alertas de sucesso
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                width: 400,
+                text: '{{ session('success') }}',
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: '#28a745',
+                iconColor: '#285c34',
+                color: '#f0f9f0'
+            });
+        @endif
+
+        // Alertas de erro
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                width: 400,
+                text: '{{ session('error') }}',
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: '#dc3545',
+                iconColor: '#7f3037',
+                color: '#fdf2f2'
+            });
+        @endif
+
+        // Alertas de aviso
+        @if (session('warning'))
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atenção!',
+                width: 400,
+                text: '{{ session('warning') }}',
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3500,
+                timerProgressBar: true,
+                background: '#ffc107',
+                iconColor: '#8a6f1e',
+                color: '#fff9eb'
+            });
+        @endif
+
+        // Alertas de informação
+        @if (session('info'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Informação',
+                text: '{{ session('info') }}',
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: '#17a2b8',
+                iconColor: '#e8f4fd',
+                color: '#e8f4fd'
+            });
+        @endif
+
+        // Função global para confirmar exclusões (pode ser reutilizada em todo o sistema)
+        function confirmDelete(formId, message = 'Tem certeza que deseja excluir este registro?') {
+            Swal.fire({
+                title: 'Confirmação',
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+
+        // Inicialização quando o documento estiver pronto
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar toast do Bootstrap (se existir)
             var toastElement = document.getElementById('myToast');
             var showToastBtn = document.getElementById('showToastBtn');
 
             if (toastElement && showToastBtn) {
-            var myToast = new bootstrap.Toast(toastElement);
-
-            showToastBtn.addEventListener('click', function() {
-                myToast.show();
-            });
+                var myToast = new bootstrap.Toast(toastElement);
+                showToastBtn.addEventListener('click', function() {
+                    myToast.show();
+                });
             }
 
-            // Alertas de sucesso
-            @if (session('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
-                    width: 400,
-                    text: '{{ session('success') }}',
-                    toast: true,
-                    position: 'bottom-end',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    timerProgressBar: true,
-                    background: '#28a745',
-                    iconColor: '#285c34',
-                    color: '#f0f9f0'
+            // Inicializar toast live (se existir)
+            var liveToastBtn = document.getElementById('liveToastBtn');
+            if (liveToastBtn) {
+                liveToastBtn.addEventListener('click', function() {
+                    var toastLiveExample = document.getElementById('liveToast');
+                    if (toastLiveExample) {
+                        var toast = new bootstrap.Toast(toastLiveExample);
+                        toast.show();
+                    }
                 });
-            @endif
+            }
 
-            // Alertas de erro
-            @if (session('error'))
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro!',
-                    width: 400,
-                    text: '{{ session('error') }}',
-                    toast: true,
-                    position: 'bottom-end',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    timerProgressBar: true,
-                    background: '#dc3545',
-                    iconColor: '#7f3037',
-                    color: '#fdf2f2'
+            // Para formulários com a classe 'delete-form' (método alternativo)
+            document.querySelectorAll('form.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const message = this.getAttribute('data-confirm-message') || 'Tem certeza que deseja excluir este registro?';
+                    
+                    Swal.fire({
+                        title: 'Confirmação',
+                        text: message,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Sim, excluir!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    });
                 });
-            @endif
-
-            // Alertas de aviso
-            @if (session('warning'))
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Atenção!',
-                    width: 400,
-                    text: '{{ session('warning') }}',
-                    toast: true,
-                    position: 'bottom-end',
-                    showConfirmButton: false,
-                    timer: 3500,
-                    timerProgressBar: true,
-                    background: '#ffc107',
-                    iconColor: '#8a6f1e',
-                    color: '#fff9eb'
-                });
-            @endif
-
-            // Alertas de informação
-            @if (session('info'))
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Informação',
-                    text: '{{ session('info') }}',
-                    toast: true,
-                    position: 'bottom-end',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    timerProgressBar: true,
-                    background: '#17a2b8',
-                    iconColor: '#e8f4fd',
-                    color: '#e8f4fd'
-                });
-            @endif
-    });
-
-    document.getElementById('liveToastBtn').addEventListener('click', function() {
-        var toastLiveExample = document.getElementById('liveToast');
-        var toast = new bootstrap.Toast(toastLiveExample);
-        toast.show();
-    });
-  </script>
+            });
+        });
+    </script>
 
 </body>
 
