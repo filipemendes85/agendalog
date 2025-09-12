@@ -326,4 +326,44 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
     });
+
+    // ==============================================
+    // IMPLEMENTAÇÃO PARA ORDENAÇÃO (SORTING)
+    // ==============================================
+    
+    // Loading para ordenação (sorting)
+    document.querySelectorAll('.sortable-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Extrai o título da coluna do texto do link (remove setas ↑↓)
+            const linkText = this.textContent.trim();
+            const title = linkText.replace(/[↑↓]/g, '').trim();
+            
+            const loadingText = `Ordenando por ${title}...`;
+            
+            // Usa a função showLoading existente (se disponível)
+            if (typeof showLoading === 'function') {
+                showLoading(loadingText);
+            } else if (typeof showPaginationLoading === 'function') {
+                // Fallback para a função de paginação se existir
+                showPaginationLoading(loadingText);
+            } else {
+                // Fallback mínimo se nenhuma função existir
+                console.log(loadingText);
+            }
+            
+            // Redireciona após breve delay
+            setTimeout(() => {
+                window.location.href = this.href;
+                
+                // Esconde o loading após um tempo (fallback)
+                if (typeof hideLoading === 'function') {
+                    setTimeout(hideLoading, 3000);
+                } else if (typeof hidePaginationLoading === 'function') {
+                    setTimeout(hidePaginationLoading, 3000);
+                }
+            }, 300);
+        });
+    });
 });
