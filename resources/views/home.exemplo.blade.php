@@ -81,7 +81,7 @@
 
 @include('includes.mensagem', ['titulo' => 'TItulo da mensagem do includes'])
 
-@component('compoments.sidebar')
+@component('components.sidebar')
    @slot('paragrafo')
         TExto para o Slot
    @endslot     
