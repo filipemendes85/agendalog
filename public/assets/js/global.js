@@ -1,4 +1,39 @@
 /**
+ * Configuração global do SweetAlert2 para loading
+ */
+const SwalModal = Swal.mixin({
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    allowEnterKey: false,
+    showConfirmButton: false,
+    showCancelButton: false,
+    timerProgressBar: false,
+    didOpen: () => {
+        Swal.showLoading();
+    }
+});
+
+/**
+ * Função global para exibir loading
+ * @param {string} message - Mensagem de loading (opcional)
+ */
+function showLoading(message = 'Processando...') {
+    Swal.fire({
+        title: '<div style="font-size: 1.3rem;">' + message + '</div>',
+        didOpen: () => {
+            Swal.showLoading(); 
+        }
+    });
+}
+
+/**
+ * Função global para esconder loading
+ */
+function hideLoading() {
+    Swal.close();
+}
+
+/**
  * Função global para exibir diálogos de confirmação personalizados usando SweetAlert2, com suporte a múltiplos tipos de ações (submissão de formulários, redirecionamentos URL ou callbacks personalizados).
  * @param {string} mensagem - Mensagem de confirmação a ser exibida ao usuário
  * @param {string} formId - ID do formulário a ser submetido se o usuário confirmar
@@ -24,6 +59,11 @@ function confirmAction(mensagem, formId = '', urlSim = '', urlNao = '', title = 
             allowEnterKey: true,
         }).then((result) => {
             if (result.isConfirmed) {
+                // Mostra loading
+                const form = document.getElementById(formId);
+                const loadingText = form ? form.getAttribute('data-loading-text') : 'Pesquisando...';
+                showLoading(loadingText);
+                
                 // Se formId for fornecido, submete o formulário
                 if (formId) {
                     document.getElementById(formId).submit();
@@ -131,6 +171,37 @@ function initFormProgress(formId, progressBarId, options = {}) {
     return updateProgress;
 }
 
+// Interceptar Fetch API para mostrar loading automático
+const originalFetch = window.fetch;
+window.fetch = function(...args) {
+    showLoading('Carregando...');
+    return originalFetch.apply(this, args)
+        .then(response => {
+            hideLoading();
+            return response;
+        })
+        .catch(error => {
+            hideLoading();
+            throw error;
+        });
+};
+
+// Interceptar Axios se estiver disponível
+if (typeof axios !== 'undefined') {
+    axios.interceptors.request.use(function (config) {
+        showLoading('Carregando...');
+        return config;
+    });
+
+    axios.interceptors.response.use(function (response) {
+        hideLoading();
+        return response;
+    }, function (error) {
+        hideLoading();
+        return Promise.reject(error);
+    });
+}
+
 //Apresenta mensagem de erro no lado superior direito da tela
 const toast = document.getElementById('toastUser');
 if (toast != null){
@@ -139,6 +210,23 @@ if (toast != null){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Auto-loading em formulários
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function() {
+            const loadingText = this.getAttribute('data-loading-text') || 'Pesquisando...';
+            showLoading(loadingText);
+        });
+    });
+
+    // Auto-loading em links com data-loading
+    document.querySelectorAll('a[data-loading]').forEach(link => {
+        link.addEventListener('click', function() {
+            const loadingText = this.getAttribute('data-loading-text') || 'Carregando...';
+            showLoading(loadingText);
+        });
+    });
+
+    // Confirmação de ações
     document.querySelectorAll('button.confirm-action, a.confirm-action').forEach(element => {
         element.addEventListener('click', function(e) {
             e.preventDefault();
@@ -158,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Barras de progresso
     document.querySelectorAll('[data-progress-bar]').forEach(form => {
         const formId = form.id;
         const progressBarId = form.getAttribute('data-progress-bar');
@@ -169,5 +258,72 @@ document.addEventListener('DOMContentLoaded', function() {
                 percentageElementId: percentageElementId
             });
         }
+    });
+
+    // Esconder loading em caso de erro
+    window.addEventListener('error', hideLoading);
+    window.addEventListener('unhandledrejection', hideLoading);
+
+    // ==============================================
+    // IMPLEMENTAÇÃO ESPECÍFICA PARA PAGINAÇÃO
+    // ==============================================
+    
+    // Verifica se a função showLoading existe
+    const showLoadingExists = typeof showLoading === 'function';
+    const hideLoadingExists = typeof hideLoading === 'function';
+    
+    // Cria funções específicas para paginação se as globais não existirem
+    if (!showLoadingExists) {
+        window.showPaginationLoading = function(message) {
+            // Remove loading existente
+            if (typeof hidePaginationLoading === 'function') {
+                hidePaginationLoading();
+            }
+            
+            const loadingHtml = `
+                <div id="paginationLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.95);z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;">
+                    <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem;"></div>
+                    <p class="text-primary fw-bold">${message}</p>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', loadingHtml);
+        };
+        
+        window.hidePaginationLoading = function() {
+            const loading = document.getElementById('paginationLoading');
+            if (loading) loading.remove();
+        };
+    }
+
+    // Adiciona eventos aos links de paginação
+    document.querySelectorAll('.pagination a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const url = new URL(this.href);
+            const page = url.searchParams.get('page') || '1';
+            const loadingText = `Carregando página ${page}...`;
+            
+            // Usa a função apropriada
+            if (showLoadingExists) {
+                showLoading(loadingText);
+            } else {
+                showPaginationLoading(loadingText);
+            }
+            
+            setTimeout(() => {
+                window.location.href = this.href;
+                
+                // Esconde o loading após um tempo (fallback)
+                setTimeout(() => {
+                    if (hideLoadingExists) {
+                        hideLoading();
+                    } else if (typeof hidePaginationLoading === 'function') {
+                        hidePaginationLoading();
+                    }
+                }, 3000);
+            }, 300);
+        });
     });
 });
