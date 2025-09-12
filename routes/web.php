@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use App\Http\Controllers\OperacaoController;
-use App\Http\Controllers\TransportadoraController;
+use App\Http\Controllers\CarrierController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\RegisterController;
@@ -53,6 +53,16 @@ Route::middleware(['auth'])->group(function(){
         'destroy' => 'clients.destroy'
     ]);
 
+    Route::resource('carriers', CarrierController::class)->names([
+        'index' => 'carriers.index',
+        'create' => 'carriers.create',
+        'store' => 'carriers.store',
+        'show' => 'carriers.show',
+        'edit' => 'carriers.edit',
+        'update' => 'carriers.update',
+        'destroy' => 'carriers.destroy'
+    ]);
+
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -66,7 +76,6 @@ Route::post('/resetpassword', [ForgotPasswordController::class, 'reset']);
 
 Route::get('/register',  [RegisterController::class, 'index']);
 Route::post('/register',  [RegisterController::class, 'store']);
-
 
 Route::get('/email/notice',  function(){
     return view('verifyEmail');
@@ -95,8 +104,6 @@ Route::get('/email/verify/{id}/{hash}', function ($id , $hash , Request $request
 
     //return redirect('/login')->with('success', 'E-mail verificado com sucesso!');;
 })->name('verification.verify');
-
-
 
 Route::get('/main', function () {
     return redirect('index');

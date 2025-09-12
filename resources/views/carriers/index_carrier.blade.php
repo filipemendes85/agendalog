@@ -6,9 +6,9 @@
         <div id="groupsContent" class="content-section">
             <div class="d-flex align-items-center justify-content-between mb-6">
                 <div>
-                    <h2><a href="{{ route('clients.index') }}" class="text-xl font-semibold text-text-primary">Clientes</a></h2>
+                    <h2><a href="{{ route('carriers.index') }}" class="text-xl font-semibold text-text-primary">Transportadoras</a></h2>
                 </div>
-                <a href="{{ route('clients.create') }}" class="btn btn-primary">
+                <a href="{{ route('carriers.create') }}" class="btn btn-primary">
                     <i class="ti ti-plus"></i> Novo
                 </a>
             </div>  
@@ -16,7 +16,7 @@
             <!-- Filtros -->
             <div class="card">
                 <div class="card-body">
-                    <form method="GET" action="{{ url('/clients') }}">
+                    <form method="GET" action="{{ url('/carriers') }}">
                         @csrf
                         <div class="row">
                             <div class="col">
@@ -54,7 +54,7 @@
             <!-- Resultados -->
             <div class="card p-6">
                 <div class="d-flex justify-content-end align-items-center mb-4">
-                    <span class="badge bg-primary">{{ $clients->total() }} clientes encontrados</span>
+                    <span class="badge bg-primary">{{ $carriers->total() }} Transportadoras encontradas</span>
                 </div>
                 
                 <div class="overflow-x-auto">
@@ -69,21 +69,21 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-border" id="operationsTableBody">
-                            @forelse($clients as $client)
+                            @forelse($carriers as $carrier)
                             <tr class="hover:bg-gray-50 transition-standard">
                                 <td class="py-2 px-2">
-                                    <div class="font-medium text-text-primary">{{ $client->nome }}</div>
+                                    <div class="font-medium text-text-primary">{{ $carrier->nome }}</div>
                                 </td>
                                 <td class="py-2 px-2">
-                                    <div class="font-mono text-sm text-primary">{{ $client->email }}</div>
+                                    <div class="font-mono text-sm text-primary">{{ $carrier->email }}</div>
                                 </td>
                                 <td class="py-2 px-2">
-                                    <div class="text-sm text-text-secondary">{{ $client->telefone ?? 'N/A' }}</div>
+                                    <div class="text-sm text-text-secondary">{{ $carrier->telefone ?? 'N/A' }}</div>
                                 </td>
                                 <td class="py-2 px-2 text-sm text-text-secondary">
-                                    @if(isset($client->ativo))
-                                        <span class="badge {{ $client->ativo == 1 ? 'badge text-bg-secondary' : 'bg-danger' }}">
-                                            {{ $client->ativo == 1 ? 'Ativo' : 'Inativo' }}
+                                    @if(isset($carrier->ativo))
+                                        <span class="badge {{ $carrier->ativo == 1 ? 'badge text-bg-secondary' : 'bg-danger' }}">
+                                            {{ $carrier->ativo == 1 ? 'Ativo' : 'Inativo' }}
                                         </span>
                                     @else
                                         <span class="badge bg-secondary">N/A</span>
@@ -92,21 +92,21 @@
                                 <td class="py-2 px-2">
                                     <div class="flex items-center space-x-2">
                                         <!-- Ver Detalhes -->
-                                        <a href="{{ route('clients.show', $client->id) }}" class="btn btn-outline-info btn-sm" title="Ver detalhes">
+                                        <a href="{{ route('carriers.show', $carrier->id) }}" class="btn btn-outline-info btn-sm" title="Ver detalhes">
                                             <i class="ti ti-eye"></i>
                                         </a>
                                         
                                         <!-- Editar -->
-                                        <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-outline-primary btn-sm" title="Editar">
+                                        <a href="{{ route('carriers.edit', $carrier->id) }}" class="btn btn-outline-primary btn-sm" title="Editar">
                                             <i class="ti ti-edit"></i>
                                         </a>
                                         
                                         <!-- Excluir -->
-                                        <form id="delete-form-{{ $client->id }}" action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline" data-loading-text="Excluindo...">
+                                        <form id="delete-form-{{ $carrier->id }}" action="{{ route('carriers.destroy', $carrier->id) }}" method="POST" class="d-inline" data-loading-text="Excluindo...">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-outline-danger btn-sm" 
-                                                onclick="confirmAction('Tem certeza que deseja excluir o cliente {{ addslashes($client->nome) }}?', 'delete-form-{{ $client->id }}')" 
+                                                onclick="confirmAction('Tem certeza que deseja excluir a transportadora {{ addslashes($carrier->nome) }}?', 'delete-form-{{ $carrier->id }}')" 
                                                 title="Excluir">
                                                 <i class="ti ti-trash"></i>
                                             </button>
@@ -129,7 +129,7 @@
                 
                 <!-- Paginação -->
                 <div class="d-flex justify-content-end mt-4">
-                    {{ $clients->appends(request()->query())->links() }}
+                    {{ $carriers->appends(request()->query())->links() }}
                 </div>
             </div>
         </div>    
