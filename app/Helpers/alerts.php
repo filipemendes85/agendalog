@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('alertMessage')) {
+if (!function_exists('systemMessage')) {
 
     /**
      * Retorna mensagens de alerta padronizadas para o sistema
@@ -15,19 +15,29 @@ if (!function_exists('alertMessage')) {
      * 
      * */
     
-    function alertMessage(string $Message, string $complement = ''): string
+    function systemMessage(string $Message, string $complement = ''): string
     {
         $messages = [
+            //mensagens de processamento
+            'pesquisando'       => 'pesquisando...',
+            'salvando'          => 'salvando...',
+            'excluindo'         => 'excluindo...',
+            'carregando'        => 'carregando...',
+            'processando'       => 'processando...',
+            'validando'         => 'validando dados...',
+            'enviado_email'     => 'enviado e-mail...',
+            'exportando'        => 'exportando dados...',
+            'importando'        => 'importando dados...',
+            'gerando_relatorio' => 'gerando relatório...',
+            'conectando'        => 'conectando...',
+
             //mensagens de sucesso
             'cadastrar'             => 'cadastrado com sucesso.',
             'atualizar'             => 'atualizado com sucesso.',
             'excluir'               => 'excluído com sucesso.',
-            'arquivo_enviado'       => 'arquivo enviado com sucesso.',
-            'arquivo_processado'    => 'arquivo processado com sucesso.',
             'email_enviado'         => 'e-mail enviado com sucesso.',
             'senha_alterada'        => 'senha alterada com sucesso.',
             'status_alterado'       => 'status alterado com sucesso.',
-            'backup_realizado'      => 'backup realizado com sucesso.',
 
             //mensagens de erro
             'erro'              => 'ocorreu um erro.',
@@ -52,18 +62,6 @@ if (!function_exists('alertMessage')) {
             'limite_excedido'       => 'limite máximo excedido.',
             'arquivo_grande'        => 'arquivo muito grande.',
 
-            //mensagens de processamento
-            'pesquisando'       => 'pesquisando...',
-            'salvando'          => 'salvando...',
-            'excluindo'         => 'excluindo...',
-            'carregando'        => 'carregando...',
-            'processando'       => 'processando...',
-            'validando'         => 'validando dados...',
-            'exportando'        => 'exportando dados...',
-            'importando'        => 'importando dados...',
-            'gerando_relatorio' => 'gerando relatório...',
-            'conectando'        => 'conectando...',
-
             // Mensagens de relatório/exportação
             'relatorio_gerado'      => 'relatório gerado com sucesso.',
             'dados_exportados'      => 'dados exportados com sucesso.',
@@ -78,6 +76,21 @@ if (!function_exists('alertMessage')) {
             'email_verificacao' => 'e-mail de verificação enviado.',
             'login'             => 'login realizado com sucesso.',
             'logout'            => 'logout realizado com sucesso.',
+
+            // Mensagens de placeholders
+            'placeholder_pesquisa'      => 'digite para pesquisar...',
+            'placeholder_email'         => 'seu_email@email.com',
+            'placeholder_telefone'      => '(27) 99999-9999',
+            'placeholder_CEP'           => '00000-000',
+            'placeholder_endereco'      => 'Rua, Avenida, etc.',
+            'placeholder_numero'        => '123',
+            'placeholder_complemento'   => 'Apto, Sala, etc.',
+            'placeholder_bairro'        => 'Centro',
+            'placeholder_cidade'        => 'Nome da cidade',
+
+            // Mensagens de agenda/calendário
+            'agendamento_confirmado'    => 'agendamento confirmado com sucesso.',
+            'agendamento_cancelado'     => 'agendamento cancelado.'
         ];
 
         $msg = $messages[$Message] ?? 'Operação realizada com sucesso.';
