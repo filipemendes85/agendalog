@@ -114,7 +114,7 @@ class ClientController extends Controller
         Client::create($validated);
 
         return redirect()->route('clients.index')
-            ->with('success', systemMessage('cadastrar'));
+            ->with('success', applicationMessage('cadastrar'));
     }
 
     // SHOW - Visualizar cliente 
@@ -154,7 +154,7 @@ class ClientController extends Controller
                     $query = Client::where('documento', $doc);
 
                     if ($request->has('id')) {
-                        $query->where('id', '!=', $request->id);
+                        $query->where('id', '!=', $client->id);
                     }
 
                     if ($query->exists()) {
@@ -189,14 +189,14 @@ class ClientController extends Controller
         $client->update($validated);
 
         return redirect()->route('clients.index')
-            ->with('success', systemMessage('atualizar'));
+            ->with('success', applicationMessage('atualizar'));
     }
 
     // DESTROY - Excluir cliente
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('clients.index')->with('success', systemMessage('excluir'));
+        return redirect()->route('clients.index')->with('success', applicationMessage('excluir'));
     }
 
 }

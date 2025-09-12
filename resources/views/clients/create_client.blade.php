@@ -60,7 +60,7 @@
                             CPF/CNPJ <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtDocumento" name="documento" required class="form-control" 
-                               value="{{ old('documento') }}" placeholder="000.000.000-00">
+                               value="{{ old('documento') }}">
                         <div class="form-text" id="documentoHelp">Informe o CPF ou CNPJ</div>
                         @error('documento') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -74,7 +74,7 @@
                             E-mail <span class="text-danger">*</span>
                         </label>
                         <input type="email" id="txtEmail" name="email" required class="form-control" 
-                               value="{{ old('email') }}" placeholder="cliente@email.com">
+                               value="{{ old('email') }}" placeholder="{{ applicationMessage('placeholder_email') }}">
                         <div class="form-text">E-mail para contato</div>
                         @error('email') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -85,7 +85,7 @@
                             Telefone <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtTelefone" name="telefone" required class="form-control" 
-                               value="{{ old('telefone') }}" placeholder="(27) 99999-9999">
+                               value="{{ old('telefone') }}" placeholder="{{ applicationMessage('placeholder_celular') }}">
                         <div class="form-text">Telefone principal</div>
                         @error('telefone') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -99,7 +99,7 @@
                             CEP <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtCep" name="cep" required class="form-control" 
-                               value="{{ old('cep') }}" placeholder="00000-000">
+                               value="{{ old('cep') }}" placeholder="{{ applicationMessage('placeholder_CEP') }}">
                         <div class="form-text">Informe o CEP</div>
                         @error('cep') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -110,7 +110,7 @@
                             Endereço <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtEndereco" name="endereco" required class="form-control" 
-                               value="{{ old('endereco') }}" placeholder="Rua, Avenida, etc.">
+                               value="{{ old('endereco') }}" placeholder="{{ applicationMessage('placeholder_endereco') }}">
                         <div class="form-text">Logradouro completo</div>
                         @error('endereco') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -121,7 +121,7 @@
                             Número <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtNumero" name="numero" required class="form-control" 
-                               value="{{ old('numero') }}" placeholder="123">
+                               value="{{ old('numero') }}" placeholder="{{ applicationMessage('placeholder_numero') }}">
                         <div class="form-text">Número do endereço</div>
                         @error('numero') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -134,7 +134,7 @@
                             Complemento
                         </label>
                         <input type="text" id="txtComplemento" name="complemento" class="form-control" 
-                               value="{{ old('complemento') }}" placeholder="Apto, Sala, etc.">
+                               value="{{ old('complemento') }}" placeholder="{{ applicationMessage('placeholder_complemento') }}">
                         <div class="form-text">Complemento do endereço</div>
                         @error('complemento') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -145,7 +145,7 @@
                             Bairro <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtBairro" name="bairro" required class="form-control" 
-                               value="{{ old('bairro') }}" placeholder="Centro">
+                               value="{{ old('bairro') }}" placeholder="{{ applicationMessage('placeholder_bairro') }}">
                         <div class="form-text">Bairro</div>
                         @error('bairro') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -156,7 +156,7 @@
                             Cidade <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtCidade" name="cidade" required class="form-control" 
-                               value="{{ old('cidade') }}" placeholder="Nome da cidade">
+                               value="{{ old('cidade') }}" placeholder="{{ applicationMessage('placeholder_cidade') }}">
                         <div class="form-text">Cidade</div>
                         @error('cidade') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>

@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class CarrierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $query = Carrier::query();
@@ -45,51 +42,149 @@ class CarrierController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return "create";
+        $estados = config('estados');
+        return view('carriers.create_carrier', compact('estados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        return "store";
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255|min:3',
+            'tipoPessoa' => 'required|in:F,J',
+            'documento' => [
+                'required',
+                'string',
+                'max:18',
+                function ($attribute, $value, $fail) use ($request) {
+
+                    $doc = preg_replace('/[^0-9]/', '', $value);
+
+                    if ($request->tipoPessoa == 'F' && strlen($doc) === 11 && !validateCPF($doc)) {
+                        $fail('CPF inválido.');
+                    } elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14 && !validateCNPJ($doc)) {
+                        $fail('CNPJ inválido.');
+                    } else if ($request->tipoPessoa != 'F' && $request->tipoPessoa != 'J') {
+                        $fail('Documento inválido para o tipo selecionado.');
+                    }
+
+                    $query = Carrier::where('documento', $doc);
+
+                    if ($request->has('id')) {
+                        $query->where('id', '!=', $request->id);
+                    }
+
+                    if ($query->exists()) {
+                        $msgDocument = $request->tipoPessoa == 'F' ? 'CPF' : 'CNPJ';
+                        $fail("$msgDocument está cadastrado para outra transportadora.");
+                    }
+                }
+            ],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('transportadora', 'email')->ignore($request->id)
+            ],
+            'telefone' => 'required|string|max:20|min:10',
+            'endereco' => 'required|string|max:255',
+            'numero' => 'required|string|max:10',
+            'complemento' => 'nullable|string|max:100',
+            'bairro' => 'required|string|max:100',
+            'cidade' => 'required|string|max:100',
+            'estado' => 'required|string|size:2|in:AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO',
+            'cep' => 'required|string|max:9|min:8',
+            'ativo' => 'required|boolean'
+        ], [
+            
+            'nome.required' => 'O nome é obrigatório.',
+            'nome.min' => 'O nome deve ter pelo menos 3 caracteres.',
+            'documento.required' => 'CPF/CNPJ é obrigatório.',
+            'email.unique' => 'Este e-mail já está cadastrado.',
+            'email.email' => 'Informe um e-mail válido.',
+            'estado.in' => 'Selecione um estado válido.',
+            'cep.min' => 'CEP inválido.'
+        ]);
+
+        Carrier::create($validated);
+
+        return redirect()->route('carriers.index')
+            ->with('success', applicationMessage('cadastrar'));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Carrier $carrier)
     {
         return view('carriers.show_carrier', compact('carrier'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Carrier $carrier)
     {
        return view('carriers.edit_carrier', compact('carrier'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Carrier $carrier)
     {
-        return "update";
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255|min:3',
+            'tipoPessoa' => 'required|in:F,J',
+            'documento' => [
+                'required',
+                'string',
+                'max:18',
+                function ($attribute, $value, $fail) use ($request, $carrier) {
+
+                    $doc = preg_replace('/[^0-9]/', '', $value);
+
+                    if ($request->tipoPessoa == 'F' && strlen($doc) === 11 && !validateCPF($doc)) {
+                        $fail('CPF inválido.');
+                    } elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14 && !validateCNPJ($doc)) {
+                        $fail('CNPJ inválido.');
+                    } else if ($request->tipoPessoa != 'F' && $request->tipoPessoa != 'J') {
+                        $fail('Documento inválido para o tipo selecionado.');
+                    }
+
+                    $query = Carrier::where('documento', $doc)
+                        ->where('id', '!=', $carrier->id);
+
+                    if ($query->exists()) {
+                        $msgDocument = $request->tipoPessoa == 'F' ? 'CPF' : 'CNPJ';
+                        $fail("$msgDocument está cadastrado para outra transportadora.");
+                    }
+                }
+            ],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('transportadora', 'email')->ignore($carrier->id)
+            ],
+            'telefone' => 'required|string|max:20|min:10',
+            'endereco' => 'required|string|max:255',
+            'numero' => 'required|string|max:10',
+            'complemento' => 'nullable|string|max:100',
+            'bairro' => 'required|string|max:100',
+            'cidade' => 'required|string|max:100',
+            'estado' => 'required|string|size:2|in:AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO',
+            'cep' => 'required|string|max:9|min:8',
+            'ativo' => 'required|boolean'
+        ]);
+
+        $request->merge(['ativo' => $request->has('ativo')]);
+
+        if (!$validated){
+            return redirect()->back()->withErrors(['field' => 'E-mail já informado para outro usuário'])->withInput();
+        }
+
+        $carrier->update($validated);
+
+        return redirect()->route('carriers.index')
+            ->with('success', applicationMessage('atualizar'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Carrier $carrier)
     {
-        return "destroy";
+        $carrier->delete();
+        return redirect()->route('carriers.index')->with('success', applicationMessage('excluir'));
     }
 }
