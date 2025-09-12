@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('systemMessage')) {
+if (!function_exists('applicationMessage')) {
 
     /**
      * Retorna mensagens de alerta padronizadas para o sistema
@@ -15,7 +15,7 @@ if (!function_exists('systemMessage')) {
      * 
      * */
     
-    function systemMessage(string $Message, string $complement = ''): string
+    function applicationMessage(string $Message, string $complement = ''): string
     {
         $messages = [
             //mensagens de processamento
@@ -80,7 +80,8 @@ if (!function_exists('systemMessage')) {
             // Mensagens de placeholders
             'placeholder_pesquisa'      => 'digite para pesquisar...',
             'placeholder_email'         => 'seu_email@email.com',
-            'placeholder_telefone'      => '(27) 99999-9999',
+            'placeholder_celular'       => '(27) 99999-9999',
+            'placeholder_telefone'      => '(27) 9999-9999',
             'placeholder_CEP'           => '00000-000',
             'placeholder_endereco'      => 'Rua, Avenida, etc.',
             'placeholder_numero'        => '123',
