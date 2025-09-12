@@ -114,7 +114,7 @@ class ClientController extends Controller
         Client::create($validated);
 
         return redirect()->route('clients.index')
-            ->with('success', alertMessage('cadastrar'));
+            ->with('success', systemMessage('cadastrar'));
     }
 
     // SHOW - Visualizar cliente 
@@ -189,14 +189,14 @@ class ClientController extends Controller
         $client->update($validated);
 
         return redirect()->route('clients.index')
-            ->with('success', alertMessage('atualizar'));
+            ->with('success', systemMessage('atualizar'));
     }
 
     // DESTROY - Excluir cliente
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('clients.index')->with('success', alertMessage('excluir'));
+        return redirect()->route('clients.index')->with('success', systemMessage('excluir'));
     }
 
 }

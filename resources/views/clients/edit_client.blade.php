@@ -1,22 +1,5 @@
 @extends('layout')
 @section('conteudo')
-
-
-@if ($errors->any())
-    <div class="toast-container position-fixed top-0 end-0 p-3 show" style="z-index: 9999;">
-        <div class="toast align-items-center custom-toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true"
-            id="toastUser">
-            <div class="d-flex">
-                <div class="toast-body text-white">
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}<br>
-                    @endforeach
-                </div>
-                <button type="button" class="btn-close me-2 m-auto text-white" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
-@endif
     
 <div class="body-wrapper-inner">
     <div class="container-fluid">
@@ -44,7 +27,7 @@
             </div>
 
             <!-- Form -->
-            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}" data-loading-text="{{ alertMessage('salvando') }}">
+            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}" data-loading-text="{{ systemMessage('salvando') }}">
                 @csrf
                 @method('PUT')
                 
@@ -223,7 +206,7 @@
                         <div class="d-flex flex-column flex-sm-row gap-3">
                             <button type="submit" class="btn btn-primary flex-fill px-4 py-2 fs-6">
                                 <i class="ti ti-file-check" width="16" height="16"></i>
-                                Atualizar Cliente
+                                Atualizar
                             </button>
                             <a href="{{ route('clients.index') }}" class="btn btn-secondary d-flex align-items-center justify-content-center">
                                 <i class="ti ti-x" width="16" height="16"></i>

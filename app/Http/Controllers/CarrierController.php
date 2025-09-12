@@ -64,17 +64,17 @@ class CarrierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Carrier $carrier)
     {
-        return "Show";
+        return view('carriers.show_carrier', compact('carrier'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Carrier $carrier)
     {
-        return "edit";
+       return view('carriers.edit_carrier', compact('carrier'));
     }
 
     /**
