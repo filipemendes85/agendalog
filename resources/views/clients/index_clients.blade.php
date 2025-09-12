@@ -102,7 +102,7 @@
                                         </a>
                                         
                                         <!-- Excluir -->
-                                        <form id="delete-form-{{ $client->id }}" action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline">
+                                        <form id="delete-form-{{ $client->id }}" action="{{ route('clients.destroy', $client->id) }}" method="POST" class="d-inline" data-loading-text="Excluindo...">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-outline-danger btn-sm" 
@@ -118,11 +118,11 @@
                                 <tr>
                                     <td colspan="5">
                                         <div class="alert alert-warning text-center">
-                                            Nenhum cliente encontrado com os filtros aplicados.
+                                            {{ alertMessage('sem_registros') }}
                                         </div>
                                     </td>
                                 </tr>
-                            @endforelse    
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -44,7 +44,7 @@
             </div>
 
             <!-- Form -->
-            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}">
+            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}" data-loading-text="{{ alertMessage('salvando') }}">
                 @csrf
                 @method('PUT')
                 

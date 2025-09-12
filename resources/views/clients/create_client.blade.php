@@ -26,7 +26,7 @@
             </div>
 
             <!-- Form -->
-            <form id="clientsForm" method="POST" action="{{ route('clients.store') }}">
+            <form id="clientsForm" method="POST" action="{{ route('clients.store') }}" data-loading-text="Salvando...">
                 @csrf
                 
                 <!-- Seção 1: Dados Básicos -->

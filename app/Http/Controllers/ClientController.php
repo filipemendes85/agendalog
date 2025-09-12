@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Validation\Rule; ;
 use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\Config;
 
 
 class ClientController extends Controller
 {
     //LISTAR - Formulario de listagem com filtros, ordenação e paginação
-
     public function index(Request $request)
     {
         $query = Client::query();
@@ -116,7 +114,7 @@ class ClientController extends Controller
         Client::create($validated);
 
         return redirect()->route('clients.index')
-            ->with('success', 'Cliente criado com sucesso!');
+            ->with('success', alertMessage('cadastrar'));
     }
 
     // SHOW - Visualizar cliente 
@@ -145,30 +143,23 @@ class ClientController extends Controller
                 function ($attribute, $value, $fail) use ($request, $client) {
                     $doc = preg_replace('/[^0-9]/', '', $value);
                     
-                    if ($request->tipoPessoa == 'F' && strlen($doc) === 11) {
-                        if (!validateCPF($doc)) {
-                            $fail('CPF inválido.');
-                            // session()->flash('warning', 'CPF inválido.');
-                        }
-                    }
-                    elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14) {
-                        if (!validateCNPJ($doc)) {
-                            $fail('CNPJ inválido.');
-                            // session()->flash('warning', 'CNPJ inválido.');
-                        }
-                    } else {
+                    if ($request->tipoPessoa == 'F' && strlen($doc) === 11 && !validateCPF($doc)) {
+                        $fail('CPF inválido.');
+                    } elseif ($request->tipoPessoa == 'J' && strlen($doc) === 14 && !validateCNPJ($doc)) {
+                        $fail('CNPJ inválido.');
+                    } else if ($request->tipoPessoa != 'F' && $request->tipoPessoa != 'J') {
                         $fail('Documento inválido para o tipo selecionado.');
-                        // session()->flash('warning', 'Documento inválido para o tipo selecionado.');
                     }
                     
-                    // Verifica se já existe, ignorando o atual
-                    $exists = Client::where('documento', $doc)
-                        ->where('id', '!=', $client->id)
-                        ->exists();
-                        
-                    if ($exists) {
-                        $fail('Este documento já está cadastrado');
-                        // session()->flash('warning', 'Este documento já está cadastrado no sistema.');
+                    $query = Client::where('documento', $doc);
+
+                    if ($request->has('id')) {
+                        $query->where('id', '!=', $request->id);
+                    }
+
+                    if ($query->exists()) {
+                        $msgDocument = $request->tipoPessoa == 'F' ? 'CPF' : 'CNPJ';
+                        $fail("$msgDocument está cadastrado para outro cliente.");
                     }
                 }
             ],
@@ -198,14 +189,14 @@ class ClientController extends Controller
         $client->update($validated);
 
         return redirect()->route('clients.index')
-            ->with('success', 'Cliente atualizado com sucesso!');
+            ->with('success', alertMessage('atualizar'));
     }
 
     // DESTROY - Excluir cliente
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('clients.index')->with('success', 'Cliente excluído com sucesso!');
+        return redirect()->route('clients.index')->with('success', alertMessage('excluir'));
     }
 
 }
