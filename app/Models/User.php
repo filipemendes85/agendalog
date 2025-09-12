@@ -52,6 +52,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function transportadora(): BelongsTo
     {
         //return $this->hasOne(Transportadora::class);
-        return $this->belongsTo(Transportadora::class);
+        return $this->belongsTo(Carrier::class);
     }
 }
