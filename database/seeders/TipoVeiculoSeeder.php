@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\TipoVeiculo;
+use App\Models\VehicleType;
 
 class TipoVeiculoSeeder extends Seeder
 {
@@ -115,7 +115,7 @@ class TipoVeiculoSeeder extends Seeder
         ];
 
         foreach ($tipos as $tipo) {
-            TipoVeiculo::create($tipo);
+            VehicleType::create($tipo);
         }
     }
 }
