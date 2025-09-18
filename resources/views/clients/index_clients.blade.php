@@ -118,7 +118,7 @@
                                 <tr>
                                     <td colspan="5">
                                         <div class="alert alert-warning text-center">
-                                            {{ systemMessage('sem_registros') }}
+                                            {{ applicationMessage('sem_registros') }}
                                         </div>
                                     </td>
                                 </tr>

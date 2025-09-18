@@ -27,7 +27,7 @@
             </div>
 
             <!-- Form -->
-            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}" data-loading-text="{{ systemMessage('salvando') }}">
+            <form id="clientsForm" method="POST" action="{{ route('clients.update', $client->id) }}" data-loading-text="{{ applicationMessage('salvando') }}">
                 @csrf
                 @method('PUT')
                 

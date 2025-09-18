@@ -27,7 +27,7 @@
             </div>
 
             <!-- Form -->
-            <form id="carriersForm" method="POST" action="{{ route('carriers.update', $carrier->id) }}" data-loading-text="{{ systemMessage('salvando') }}">
+            <form id="carriersForm" method="POST" action="{{ route('carriers.update', $carrier->id) }}" data-loading-text="{{ applicationMessage('salvando') }}">
                 @csrf
                 @method('PUT')
                 
@@ -75,7 +75,7 @@
                             E-mail <span class="text-danger">*</span>
                         </label>
                         <input type="email" id="txtEmail" name="email" required class="form-control" 
-                               value="{{ old('email', $carrier->email) }}" placeholder="{{ systemMessage('placeholder_email') }}">
+                               value="{{ old('email', $carrier->email) }}" placeholder="{{ applicationMessage('placeholder_email') }}">
                         <div class="form-text">E-mail para contato</div>
                         @error('email') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -86,7 +86,7 @@
                             Telefone <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtTelefone" name="telefone" required class="form-control" 
-                               value="{{ old('telefone', $carrier->telefone) }}" placeholder="{{ systemMessage('placeholder_telefone') }}">
+                               value="{{ old('telefone', $carrier->telefone) }}" placeholder="{{ applicationMessage('placeholder_telefone') }}">
                         <div class="form-text">Telefone principal</div>
                         @error('telefone') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -100,7 +100,7 @@
                             CEP <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtCep" name="cep" required class="form-control" 
-                               value="{{ old('cep', $carrier->cep) }}" placeholder="{{ systemMessage('placeholder_CEP') }}">
+                               value="{{ old('cep', $carrier->cep) }}" placeholder="{{ applicationMessage('placeholder_CEP') }}">
                         <div class="form-text">Informe o CEP</div>
                         @error('cep') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -111,7 +111,7 @@
                             Endereço <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtEndereco" name="endereco" required class="form-control" 
-                               value="{{ old('endereco', $carrier->endereco) }}" placeholder="{{ systemMessage('placeholder_endereco') }}">
+                               value="{{ old('endereco', $carrier->endereco) }}" placeholder="{{ applicationMessage('placeholder_endereco') }}">
                         <div class="form-text">Logradouro completo</div>
                         @error('endereco') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -122,7 +122,7 @@
                             Número <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtNumero" name="numero" required class="form-control" 
-                               value="{{ old('numero', $carrier->numero) }}" placeholder="{{ systemMessage('placeholder_numero') }}">
+                               value="{{ old('numero', $carrier->numero) }}" placeholder="{{ applicationMessage('placeholder_numero') }}">
                         <div class="form-text">Número do endereço</div>
                         @error('numero') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -135,7 +135,7 @@
                             Complemento
                         </label>
                         <input type="text" id="txtComplemento" name="complemento" class="form-control" 
-                               value="{{ old('complemento', $carrier->complemento) }}" placeholder="{{ systemMessage('placeholder_complemento') }}">
+                               value="{{ old('complemento', $carrier->complemento) }}" placeholder="{{ applicationMessage('placeholder_complemento') }}">
                         <div class="form-text">Complemento do endereço</div>
                         @error('complemento') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -146,7 +146,7 @@
                             Bairro <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtBairro" name="bairro" required class="form-control" 
-                               value="{{ old('bairro', $carrier->bairro) }}" placeholder="{{ systemMessage('placeholder_bairro') }}">
+                               value="{{ old('bairro', $carrier->bairro) }}" placeholder="{{ applicationMessage('placeholder_bairro') }}">
                         <div class="form-text">Bairro</div>
                         @error('bairro') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -157,7 +157,7 @@
                             Cidade <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtCidade" name="cidade" required class="form-control" 
-                               value="{{ old('cidade', $carrier->cidade) }}" placeholder="{{ systemMessage('Nome da cidade') }}">
+                               value="{{ old('cidade', $carrier->cidade) }}" placeholder="{{ applicationMessage('Nome da cidade') }}">
                         <div class="form-text">Cidade</div>
                         @error('cidade') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>

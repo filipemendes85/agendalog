@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('systemMessage')) {
+if (!function_exists('applicationMessage')) {
 
     /**
      * Retorna mensagens de alerta padronizadas para o sistema
@@ -15,7 +15,7 @@ if (!function_exists('systemMessage')) {
      * 
      * */
     
-    function systemMessage(string $Message, string $complement = ''): string
+    function applicationMessage(string $Message, string $complement = ''): string
     {
         $messages = [
             //mensagens de processamento
