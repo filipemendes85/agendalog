@@ -154,7 +154,7 @@ class ClientController extends Controller
                     $query = Client::where('documento', $doc);
 
                     if ($request->has('id')) {
-                        $query->where('id', '!=', $request->id);
+                        $query->where('id', '!=', $client->id);
                     }
 
                     if ($query->exists()) {

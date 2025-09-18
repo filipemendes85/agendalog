@@ -56,7 +56,7 @@
                 <div class="d-flex justify-content-end align-items-center mb-4">
                     <span class="badge bg-primary">{{ $carriers->total() }} Transportadoras encontradas</span>
                 </div>
-                
+
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <thead>

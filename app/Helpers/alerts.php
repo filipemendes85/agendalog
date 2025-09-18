@@ -80,7 +80,8 @@ if (!function_exists('applicationMessage')) {
             // Mensagens de placeholders
             'placeholder_pesquisa'      => 'digite para pesquisar...',
             'placeholder_email'         => 'seu_email@email.com',
-            'placeholder_telefone'      => '(27) 99999-9999',
+            'placeholder_celular'       => '(27) 99999-9999',
+            'placeholder_telefone'      => '(27) 9999-9999',
             'placeholder_CEP'           => '00000-000',
             'placeholder_endereco'      => 'Rua, Avenida, etc.',
             'placeholder_numero'        => '123',

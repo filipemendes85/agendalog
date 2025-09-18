@@ -86,7 +86,7 @@
                             Telefone <span class="text-danger">*</span>
                         </label>
                         <input type="text" id="txtTelefone" name="telefone" required class="form-control" 
-                               value="{{ old('telefone', $carrier->telefone) }}" placeholder="{{ applicationMessage('placeholder_telefone') }}">
+                               value="{{ old('telefone', $carrier->telefone) }}" placeholder="{{ applicationMessage('placeholder_celular') }}">
                         <div class="form-text">Telefone principal</div>
                         @error('telefone') <div class="text-danger text-sm">{{ $message }}</div> @enderror
                     </div>
@@ -223,5 +223,5 @@
 @endsection
 
 @push('pagescript')
-    <script src="{{ asset('assets/js/carriers/edit_client.js') }}" defer></script>
+    <script src="{{ asset('assets/js/carriers/edit_carrier.js') }}" defer></script>
 @endpush
