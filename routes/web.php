@@ -117,8 +117,6 @@ Route::get('/main2', function () {
 Route::get('/operacoes', [OperacaoController::class, 'index']);
 Route::get('/operacao/{id?}', [OperacaoController::class, 'show'])->name("operacao.show");
 
-Route::resource('/transportadoras', TransportadoraController::class);
-
 Route::get('/sessions', function(){
     $data = Session::all();
         // You can now use $data.
