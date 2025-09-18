@@ -10,6 +10,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\VehicleTypeController;
+
 use App\Models\User;
 
 Route::middleware(['auth'])->group(function(){
@@ -51,6 +53,16 @@ Route::middleware(['auth'])->group(function(){
         'edit' => 'carriers.edit',
         'update' => 'carriers.update',
         'destroy' => 'carriers.destroy'
+    ]);
+
+     Route::resource('vehicle_types', VehicleTypeController::class)->names([
+        'index' => 'vehicle_types.index',
+        'create' => 'vehicle_types.create',
+        'store' => 'vehicle_types.store',
+        'show' => 'vehicle_types.show',
+        'edit' => 'vehicle_types.edit',
+        'update' => 'vehicle_types.update',
+        'destroy' => 'vehicle_types.destroy'
     ]);
 
 });
