@@ -178,7 +178,7 @@ class UserController extends Controller
         
         if ($user){
             if ($user->hasVerifiedEmail()) {
-                $erro = ['field' => 'Email já verificado.'];
+                $erro = ['field' => 'E-mail já verificado.'];
             }
             else
                 $user->sendEmailVerificationNotification();
@@ -186,7 +186,7 @@ class UserController extends Controller
             $erro = ['field' => 'Usuário não encontrado.'];
         }
 
-        return $erro == null ? redirect()->route('users.index', $request->query())->with('message', 'E-mail de verificado enviado!')
+        return $erro == null ? redirect()->route('users.index', $request->query())->with('message', 'E-mail de verificação enviado!')
             : redirect()->back()->withErrors($erro)->withInput();
     }
 }

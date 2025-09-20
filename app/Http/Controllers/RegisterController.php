@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 
-use App\Models\Transportadora;
+use App\Models\Carrier;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -44,7 +44,7 @@ class RegisterController extends Controller
         $erroRegras = array();
 
 
-        $transportadora = Transportadora::where('documento', $request->input('cnpj'))
+        $transportadora = Carrier::where('documento', $request->input('cnpj'))
                                 ->where('tipoPessoa', 'J')
                                 ->first();
 

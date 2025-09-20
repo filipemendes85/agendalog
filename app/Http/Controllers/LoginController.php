@@ -29,11 +29,24 @@ class LoginController extends Controller
         ];
         $credenciais = $request->validate($rules, $customMessages);
 
-        //dd($credenciais);
-
         if (Auth::attempt($credenciais)){
-            $request->session()->regenerate();
-            return redirect('index');
+            $user = auth()->user();
+            $msgErro = ""; 
+            if (!$user->active)
+                $msgErro = "Usuário inativo";
+            else
+            if (!$user->hasVerifiedEmail())
+                $msgErro = "Usuário inativo";
+            
+            if (!empty($msgErro)){
+                Auth::logout(); // Logs out the authenticated user
+                $request->session()->invalidate(); // Invalidates the current session
+                $request->session()->regenerateToken(); // Regenerates the CSRF token
+                return back()->withInput()->with('loginErro', $msgErro);
+            } else {
+                $request->session()->regenerate();
+                return redirect('index');
+            }
         }
 
         return back()->withInput()->with('loginErro', 'Usuário ou senha inválido!');

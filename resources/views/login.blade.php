@@ -17,7 +17,7 @@
             <div class="toast align-items-center custom-toast" role="alert" aria-live="assertive" aria-atomic="true"
                 id="toastLoginErro">
                 <div class="d-flex">
-                    <div class="toast-body text-white">
+                    <div class="toast-body">
                         @foreach ($errors->all() as $error)
                             {{ $error }}<br>
                         @endforeach
