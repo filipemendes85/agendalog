@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class VehicleType extends Model
 {
     use HasFactory;
@@ -14,19 +13,35 @@ class VehicleType extends Model
 
     protected $fillable = [
         'nomeVeiculo',
+        'tipoVeiculo',
         'qtdeEixo',
-        'pesoSuportado',
-        'comprimentoMedio',
+        'pesoLiquido',
+        'pesoBruto',
+        'comprimento',
         'altura',
         'largura',
         'ativo',
     ];
 
     protected $casts = [
-        'ativo' => 'integer',
-        'pesoSuportado' => 'decimal:2',
-        'comprimentoMedio' => 'decimal:2',
+        'ativo' => 'boolean',
+        'qtdeEixo' => 'integer',
+        'pesoLiquido' => 'decimal:2',
+        'pesoBruto' => 'decimal:2',
+        'comprimento' => 'decimal:2',
         'altura' => 'decimal:2',
         'largura' => 'decimal:2',
+    ];
+
+    /**
+     * The attributes that should have default values.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'qtdeEixo' => 0,
+        'pesoLiquido' => 0.00,
+        'pesoBruto' => 0.00,
+        'ativo' => true,
     ];
 }

@@ -56,38 +56,46 @@
                     <table class="table w-full">
                         <thead>
                             <tr class="border-b border-border">
-                                <th class="col w-30">{!! sort_link('nomeVeiculo', 'Nome') !!}</th>
-                                <th class="col w-10">{!! sort_link('qtdeEixo', 'Qtde. Eixos') !!}</th>
-                                <th class="col w-10">{!! sort_link('pesoSuportado', 'Peso') !!}</th>
-                                <th class="col w-10">{!! sort_link('comprimentoMedio', 'Comprimento') !!}</th>
-                                <th class="col w-10">{!! sort_link('altura', 'Altura') !!}</th>
-                                <th class="col w-10">{!! sort_link('largura', 'Largura') !!}</th>
-                                <th class="col w-10">Ativo</th>
-                                <th class="col w-10">Ações</th>
+                                <th class="text-start">{!! sort_link('nomeVeiculo', 'Nome') !!}</th>
+                                <th class="text-start">{!! sort_link('tipoVeiculo', 'Tipo') !!}</th>
+                                <th class="text-center">{!! sort_link('qtdeEixo', 'Qtde. Eixos') !!}</th>
+                                <th class="text-center">{!! sort_link('pesoLiquido', 'Peso Liq.') !!}</th>
+                                <th class="text-center">{!! sort_link('pesoBruto', 'Peso Bru.') !!}</th>
+                                <th class="text-center">{!! sort_link('comprimento', 'Comprimento') !!}</th>
+                                <th class="text-center">{!! sort_link('altura', 'Altura') !!}</th>
+                                <th class="text-center">{!! sort_link('largura', 'Largura') !!}</th>
+                                <th class="text-center">Ativo</th>
+                                <th class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-border" id="operationsTableBody">
                             @forelse($vehicle_types as $vehicleType)
                             <tr class="hover:bg-gray-50 transition-standard">
-                                <td class="py-2 px-2">
+                                <td class="text-start">
                                     <div class="font-medium text-text-primary">{{ $vehicleType->nomeVeiculo }}</div>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="text-start">
+                                    <div class="font-medium text-text-primary">{{ $vehicleType->tipoVeiculo }}</div>
+                                </td>
+                                <td class="text-center">
                                     <div class="text-sm-center-sm text-text-secondary">{{ $vehicleType->qtdeEixo }}</div>
                                 </td>
-                                <td class="py-2 px-2">
-                                    <div class="text-sm text-text-secondary">{{ $vehicleType->pesoSuportado }}</div>
+                                <td class="text-center">
+                                    <div class="text-sm text-text-secondary">{{ $vehicleType->pesoLiquido }}</div>
                                 </td>
-                                <td class="py-2 px-2">
-                                    <div class="text-sm text-text-secondary">{{ $vehicleType->comprimentoMedio }}</div>
+                                <td class="text-center">
+                                    <div class="text-sm text-text-secondary">{{ $vehicleType->pesoBruto }}</div>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="text-center">
+                                    <div class="text-sm text-text-secondary">{{ $vehicleType->comprimento }}</div>
+                                </td>
+                                <td class="text-center">
                                     <div class="text-sm text-text-secondary">{{ $vehicleType->altura }}</div>
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="text-center">
                                     <div class="text-sm text-text-secondary">{{ $vehicleType->largura }}</div>
                                 </td>
-                                <td class="py-2 px-2 text-sm text-text-secondary">
+                                <td class="text-center text-text-secondary">
                                     @if(isset($vehicleType->ativo))
                                         <span class="badge {{ $vehicleType->ativo == 1 ? 'badge text-bg-secondary' : 'bg-danger' }}">
                                             {{ $vehicleType->ativo == 1 ? 'Ativo' : 'Inativo' }}
@@ -96,7 +104,7 @@
                                         <span class="badge bg-secondary">N/A</span>
                                     @endif
                                 </td>
-                                <td class="py-2 px-2">
+                                <td class="text-center">
                                     <div class="flex items-center space-x-2">
                                         <!-- Ver Detalhes -->
                                         <a href="{{ route('vehicle_types.show', $vehicleType->id) }}" class="btn btn-outline-info btn-sm" title="Ver detalhes">
