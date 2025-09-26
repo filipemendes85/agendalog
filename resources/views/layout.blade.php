@@ -55,7 +55,7 @@
                 <span class="d-flex">
                     <i class="ti ti-layout-grid"></i>
                 </span>
-                <span class="hide-menu">Grande</span>
+                <span class="hide-menu">Grade</span>
                 </div>
                 
             </a>
@@ -76,7 +76,7 @@
                 href="/clients" aria-expanded="false">
                 <div class="d-flex align-items-center gap-3">
                 <span class="d-flex">
-                    <i class="ti ti-address-book"></i>
+                    <i class="ti ti-user-circle"></i>
                 </span>
                 <span class="hide-menu">Cliente</span>
                 </div>
@@ -104,6 +104,17 @@
                 <span class="hide-menu">Tipo de Veículo</span>
                 </div>
             </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link justify-content-between"  
+                    href="/products" aria-expanded="false">
+                    <div class="d-flex align-items-center gap-3">
+                    <span class="d-flex">
+                        <i class="ti ti-package"></i>
+                    </span>
+                    <span class="hide-menu">Produto</span>
+                    </div>
+                </a>
             </li>
             {{-- <li class="sidebar-item">
             <a class="sidebar-link justify-content-between has-arrow" href="javascript:void(0)" aria-expanded="false">
