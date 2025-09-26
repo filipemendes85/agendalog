@@ -3,15 +3,27 @@
 
 <div class="body-wrapper-inner">
     <div class="container-fluid">
-        <div id="groupsContent" class="content-section">
-            <div class="d-flex align-items-center justify-content-between mb-6">
-                <div>
-                    <h2><a href="{{ route('clients.index') }}" class="text-xl font-semibold text-text-primary">Clientes</a></h2>
+        <div id="boxshadow" class="card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="p-2 bg-primary bg-opacity-10 rounded me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-user text-primary">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" />
+                            <path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl fw-semibold text-dark mb-1">Cliente</h2>
+                            <p class="text-muted mb-0">Cadastro e consulta de clientes</p>
+                    </div>
                 </div>
-                <a href="{{ route('clients.create') }}" class="btn btn-primary">
-                    <i class="ti ti-plus"></i> Novo
-                </a>
-            </div>  
+                <div class="d-flex gap-2">
+                    <a href="{{ route('clients.create') }}" class="btn btn-primary">
+                        <i class="ti ti-plus"></i> Novo
+                    </a>
+                </div>
+            </div>
 
             <!-- Filtros -->
             <div class="card">
@@ -82,7 +94,7 @@
                                 </td>
                                 <td class="py-2 px-2 text-sm text-text-secondary">
                                     @if(isset($client->ativo))
-                                        <span class="badge {{ $client->ativo == 1 ? 'badge text-bg-secondary' : 'bg-danger' }}">
+                                        <span class="badge {{ $client->ativo == 1 ? 'bg-success' : 'bg-danger' }}">
                                             {{ $client->ativo == 1 ? 'Ativo' : 'Inativo' }}
                                         </span>
                                     @else

@@ -61,9 +61,6 @@
                                 <th class="text-center">{!! sort_link('qtdeEixo', 'Qtde. Eixos') !!}</th>
                                 <th class="text-center">{!! sort_link('pesoLiquido', 'Peso Liq.') !!}</th>
                                 <th class="text-center">{!! sort_link('pesoBruto', 'Peso Bru.') !!}</th>
-                                <th class="text-center">{!! sort_link('comprimento', 'Comprimento') !!}</th>
-                                <th class="text-center">{!! sort_link('altura', 'Altura') !!}</th>
-                                <th class="text-center">{!! sort_link('largura', 'Largura') !!}</th>
                                 <th class="text-center">Ativo</th>
                                 <th class="text-center">Ações</th>
                             </tr>
@@ -85,15 +82,6 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="text-sm text-text-secondary">{{ $vehicleType->pesoBruto }}</div>
-                                </td>
-                                <td class="text-center">
-                                    <div class="text-sm text-text-secondary">{{ $vehicleType->comprimento }}</div>
-                                </td>
-                                <td class="text-center">
-                                    <div class="text-sm text-text-secondary">{{ $vehicleType->altura }}</div>
-                                </td>
-                                <td class="text-center">
-                                    <div class="text-sm text-text-secondary">{{ $vehicleType->largura }}</div>
                                 </td>
                                 <td class="text-center text-text-secondary">
                                     @if(isset($vehicleType->ativo))
