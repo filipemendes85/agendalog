@@ -11,6 +11,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\VehicleTypeController;
+use App\Http\Controllers\ProductController;
 
 use App\Models\User;
 
@@ -63,6 +64,16 @@ Route::middleware(['auth'])->group(function(){
         'edit' => 'vehicle_types.edit',
         'update' => 'vehicle_types.update',
         'destroy' => 'vehicle_types.destroy'
+    ]);
+
+    Route::resource('products', ProductController::class)->names([
+        'index' => 'products.index',
+        'create' => 'products.create',
+        'store' => 'products.store',
+        'show' => 'products.show',
+        'edit' => 'products.edit',
+        'update' => 'products.update',
+        'destroy' => 'products.destroy'
     ]);
 
 });
