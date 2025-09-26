@@ -9,16 +9,17 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Kyslik\ColumnSortable\Sortable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Sortable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array<int, string>php artisan make:controller AuthApiController
      */
     protected $fillable = [
         'name',
@@ -53,5 +54,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         //return $this->hasOne(Transportadora::class);
         return $this->belongsTo(Carrier::class);
+    }
+
+    // Métodos exigidos pelo JWT
+    public function getJWTIdentifier() {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims() {
+        return [];
     }
 }
